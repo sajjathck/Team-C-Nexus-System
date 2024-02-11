@@ -41,12 +41,12 @@ export default function Login(props) {
             if (
               validUser.role === null ||
               validUser.token === null ||
-              validUser.userId === 0
+              validUser.emailid === null
             ) {
               setErr("Invalid user credentials or missing user details.");
               setIsLoading(false);
             } else {
-              sessionStorage.setItem("uid", validUser.userId);
+              sessionStorage.setItem("email", validUser.emailid);
               sessionStorage.setItem("token", validUser.token);
               sessionStorage.setItem("role", validUser.role.toLowerCase());
               setTimeout(() => {

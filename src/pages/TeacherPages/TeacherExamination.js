@@ -1,7 +1,292 @@
-import React from 'react'
+import React, { useState, useEffect, Fragment } from "react";
+import axios from 'axios';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Form, Button, Container, Row, Col, Table, Modal } from 'react-bootstrap';
 
-export default function TeacherExamination() {
-  return (
-    <div>ExaminationPage</div>
-  )
-}
+const TeacherExamination = () => {
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    const [examId, setExamId] = useState("");
+    const [examName, setExamName] = useState("");
+    const [examDate, setExamDate] = useState("");
+    const [classId, setClassId] = useState("");
+    const [subjectName, setSubjectName] = useState("");
+    const [formErrors, setFormErrors] = useState({
+        examId: '',
+        examName: '',
+        examDate: '',
+        classId: '',
+        subjectName: ''
+    });
+
+    const [editExamId, setEditExamId] = useState("");
+    const [editExamName, setEditExamName] = useState("");
+    const [editExamDate, setEditExamDate] = useState("");
+    const [editClassId, setEditClassId] = useState("");
+    const [editSubjectName, setEditSubject] = useState("");
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        getData();
+    }, []);
+
+    const getData = () => {
+        axios.get('http://localhost:5225/api/Examination/GetAllExam')
+            .then((result) => {
+                setData(result.data);
+            })
+            .catch((error) => {
+                toast.error(error);
+            });
+    };
+
+    const handleEdit = (examId) => {
+        handleShow();
+        axios.get(`http://localhost:5225/api/Examination/GetExamByExamId/${examId}`)
+            .then((result) => {
+                console.log(result.data);
+            })
+            .catch((error) => {
+                toast.error(error);
+            });
+    };
+
+    const handleDelete = (examId) => {
+        if (window.confirm("Are you sure to delete this exam?")) {
+            axios.delete(`http://localhost:5225/api/Examination/DeleteExam/${examId}`)
+                .then((result) => {
+                    if (result.status === 200) {
+                        toast.success("Deleted successfully");
+                        getData();
+                    }
+                })
+                .catch((error) => {
+                    toast.error(error);
+                });
+        }
+    };
+
+    const handleUpdate = () => {
+        const url = 'http://localhost:5225/api/Examination/EditExamination';
+        const data = {
+            "examId": editExamId,
+            "examName": editExamName,
+            "examDate": editExamDate,
+            "classId": editClassId,
+            "subjectName": editSubjectName
+        };
+
+        axios.put(url, data)
+            .then((result) => {
+                handleClose();
+                getData();
+                toast.success("Exam has been updated");
+            })
+            .catch((error) => {
+                toast.error(error);
+            });
+    };
+
+    const validateForm = () => {
+        let isValid = true;
+        const errors = {};
+
+        if (!examId.trim()) {
+            errors.examId = 'Exam ID is required';
+            isValid = false;
+        } else if (data.some(item => item.examId === examId)) {
+            errors.examId = 'Exam ID already exists';
+            isValid = false;
+        }
+
+        if (!examName.trim()) {
+            errors.examName = 'Exam Name is required';
+            isValid = false;
+        }
+
+        if (!examDate.trim()) {
+            errors.examDate = 'Exam Date is required';
+            isValid = false;
+        }
+
+        if (!classId.trim()) {
+            errors.classId = 'Class ID is required';
+            isValid = false;
+        }
+
+        if (!subjectName.trim()) {
+            errors.subjectName = 'Subject Name is required';
+            isValid = false;
+        }
+
+        setFormErrors(errors);
+        return isValid;
+    };
+
+    const handleSave = () => {
+        if (validateForm()) {
+            const url = 'http://localhost:5225/api/Examination/ScheduleExam';
+            const data = {
+                examId: examId,
+                examName: examName,
+                examDate: examDate,
+                classId: classId,
+                subjectName: subjectName
+            };
+
+            axios.post(url, data)
+                .then((result) => {
+                    toast.success("Exam has been added");
+                    clear();
+                    getData(); // Fetch data again after adding
+                })
+                .catch((error) => {
+                    toast.error(error);
+                });
+        }
+    };
+
+    const clear = () => {
+        setExamId('');
+        setExamName('');
+        setExamDate('');
+        setClassId('');
+        setSubjectName('');
+        setFormErrors({
+            examId: '',
+            examName: '',
+            examDate: '',
+            classId: '',
+            subjectName: ''
+        });
+    };
+
+    return (
+        <Container>
+            <ToastContainer />
+            <h2 className="mt-5 mb-3">Exam Control</h2>
+            <Form>
+                <Row className="mb-3">
+                    <Form.Group as={Col} controlId="examId">
+                        <Form.Label>Exam ID</Form.Label>
+                        <Form.Control type="text" value={examId} onChange={(e) => setExamId(e.target.value)} isInvalid={!!formErrors.examId} />
+                        <Form.Control.Feedback type="invalid">{formErrors.examId}</Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="examName">
+                        <Form.Label>Exam Name</Form.Label>
+                        <Form.Control type="text" value={examName} onChange={(e) => setExamName(e.target.value)} isInvalid={!!formErrors.examName} />
+                        <Form.Control.Feedback type="invalid">{formErrors.examName}</Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="examDate">
+                        <Form.Label>Exam Date</Form.Label>
+                        <Form.Control type="date" value={examDate} onChange={(e) => setExamDate(e.target.value)} isInvalid={!!formErrors.examDate} />
+                        <Form.Control.Feedback type="invalid">{formErrors.examDate}</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
+                <Row className="mb-3">
+                    <Form.Group as={Col} controlId="classId">
+                        <Form.Label>Class ID</Form.Label>
+                        <Form.Control type="text" value={classId} onChange={(e) => setClassId(e.target.value)} isInvalid={!!formErrors.classId} />
+                        <Form.Control.Feedback type="invalid">{formErrors.classId}</Form.Control.Feedback>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="subjectName">
+                        <Form.Label>Subject Name</Form.Label>
+
+                        <Form.Control type="text" value={subjectName} onChange={(e) => setSubjectName(e.target.value)} isInvalid={!!formErrors.subjectName} />
+                        <Form.Control.Feedback type="invalid">{formErrors.subjectName}</Form.Control.Feedback>
+                    </Form.Group>
+                </Row>
+                <Button variant="primary" onClick={handleSave}>Add Exam Details</Button>
+            </Form>
+            <br></br>
+        <div className='pt-2'>
+          <Table striped bordered hover>
+          <thead>
+            <tr>
+                <th>Sl.No</th>
+              <th>Exam Id</th>
+              <th>Exam Name</th>
+              <th>Exam Date</th>
+              <th>Class ID</th>
+              <th>Subject Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              data && data.length > 0 ?
+              data.map((item,index)=>{
+                return (
+                  <tr key={index}>
+                  <td>{index+1}</td>
+                  <td>{item.examId}</td>
+                  <td>{item.examName}</td>
+                  <td>{item.examDate}</td>
+                  <td>{item.classId}</td>
+                  <td>{item.subjectName}</td>
+                  <td colSpan={2}>
+                 
+                 
+                    <button className='btn btn-primary'  onClick={()=>handleEdit(item.examId)} >Edit</button> &nbsp;
+                    <button className='btn btn-danger' onClick={()=> handleDelete(item.examId)}  >Delete</button>
+                  </td>
+                </tr>
+                )
+              })
+              :
+              'Loading.......'
+            }
+           
+          </tbody>
+        </Table>
+        </div>
+        <Modal show={show} onHide={handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>Modify /Update Exam</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <Row>
+            <Col>
+            <input type="text" className='form-control' placeholder='Enter Exam Id'
+            value={editExamId} onChange={(e)=> setEditExamId(e.target.value)} />
+            </Col>
+            <Col>
+            <input type="text" className='form-control' placeholder='Enter Exam Name'
+            value={editExamName} onChange={(e)=> setEditExamName(e.target.value)} />
+            </Col>
+            </Row>
+            <Row className='pt-2'>
+            <Col>
+            <input type="date" className='form-control' placeholder='Enter Exam Date'
+            value={editExamDate} onChange={(e)=> setEditExamDate(e.target.value)} />
+            </Col>
+            <Col>
+            <input type="text" className='form-control' placeholder='Enter Class Id'
+            value={editClassId} onChange={(e)=> setEditClassId(e.target.value)} />
+            </Col>
+            <Col>
+            <input type="text" className='form-control' placeholder='Enter Subject Name'
+            value={editSubjectName} onChange={(e)=> setEditSubject(e.target.value)} />
+            </Col>
+          </Row>
+    
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={handleUpdate}>
+                Save Changes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+            {/* </Fragment> */}
+        </Container>
+        
+    );
+};
+
+export default TeacherExamination;

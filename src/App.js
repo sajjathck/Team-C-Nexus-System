@@ -35,6 +35,7 @@ import StudentLayout from "./layouts/StudentLayout";
 import TeacherCommunication from "./pages/TeacherPages/TeacherCommunication";
 import ViewCommunicationPage from "./pages/StudentPages/ViewCommunicationPage";
 import NoPage from "./components/shared/NoPage";
+import MarksManager from "./pages/TeacherPages/MarksManager";
 
 function App() {
   return (
@@ -56,7 +57,7 @@ function App() {
               <Route path="attendance" element={<StudentAttendancePage />} />
               <Route path="examination" element={<StudentExamination />} />
               <Route path="class" element={<ViewClassPage />} />
-              <Route path="communication" element={<ViewCommunicationPage />} />
+              {/* <Route path="communication" element={<ViewCommunicationPage />} /> */}
             </Route>
             <Route path="teacher-dashboard" element={<DashboardLayout />}>
               <Route index element={<TeacherHome />} />
@@ -64,7 +65,8 @@ function App() {
               <Route path="attendance" element={<AddStudentAttendance />} />
               <Route path="examination" element={<TeacherExaminationPage />} />
               <Route path="class" element={<TeacherClassView />} />
-              <Route path="communication" element={<TeacherCommunication />} />
+              <Route path="results" element={<MarksManager />} />
+              {/* <Route path="communication" element={<TeacherCommunication />} /> */}
             </Route>
             <Route path="admin-dashboard" element={<DashboardLayout />}>
               <Route index element={<AdminHome />} />

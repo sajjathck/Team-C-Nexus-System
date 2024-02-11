@@ -3,6 +3,6 @@ const TeacherModules = [
     { name: "Attendance", link: "attendance" },
     { name: "Examination", link: "examination" },
     { name: "Class", link: "class" },
-    { name: "Communication", link: "communication" },
+    { name: "Results", link: "results" },
   ];
   export default TeacherModules;
