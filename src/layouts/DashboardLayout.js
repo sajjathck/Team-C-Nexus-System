@@ -5,6 +5,7 @@ import HomeButton from "../components/Buttons/HomeButton";
 import StudentModules from "../pages/StudentPages/StudentModules";
 import AdminModules from "../pages/AdminPages/AdminModules";
 import TeacherModules from "../pages/TeacherPages/TeacherModules";
+import LogoutButton from "../components/Buttons/LogoutButton";
 
 export default function DashboardLayout() {
   const [role, setRole] = useState(""); // Initialize role state
@@ -56,7 +57,7 @@ export default function DashboardLayout() {
               </li>
               <li className="nav-item">
                 <Link className="" to="/login">
-                  <HomeButton text="Logout" />
+                  <LogoutButton />
                 </Link>
               </li>
             </ul>
