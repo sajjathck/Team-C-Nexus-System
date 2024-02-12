@@ -93,7 +93,7 @@ const GetStudByRollNo = () => {
     return (
         <Container>
             <ToastContainer />
-            <h2 className="mt-5 mb-3">Student Control</h2>
+            <h2 className="mt-5 mb-3">Student By Roll No</h2>
             <Row className="mb-3">
                 <Col>
                     <Form.Select onChange={(e) => setselectedRoll(e.target.value)}>

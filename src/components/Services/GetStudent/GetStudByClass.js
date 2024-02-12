@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Form, Button, Container, Row, Col, Table, Modal } from 'react-bootstrap';
  
- 
+ //for teacher
 const GetStudByClass = () => {
     const [show, setShow] = useState(false);
     const [selectedClass, setselectedClass] = useState("");
@@ -91,7 +91,7 @@ const GetStudByClass = () => {
     return (
         <Container>
             <ToastContainer />
-            <h2 className="mt-5 mb-3">Student Control</h2>
+            <h2 className="mt-5 mb-3">Student By Class</h2>
             <Row className="mb-3">
                 <Col>
                     <Form.Select onChange={(e) => setselectedClass(e.target.value)}>

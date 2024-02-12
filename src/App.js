@@ -51,37 +51,38 @@ function App() {
             <Route path="signup" element={<SignUp />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
           </Route>
-            <Route path="student-dashboard" element={<DashboardLayout />}>
-              <Route index element={<StudentHome />} />
-              <Route path="profile" element={<StudentProfile />} />
-              <Route path="attendance" element={<StudentAttendancePage />} />
-              <Route path="examination" element={<StudentExamination />} />
-              <Route path="class" element={<ViewClassPage />} />
-              {/* <Route path="communication" element={<ViewCommunicationPage />} /> */}
-            </Route>
-            <Route path="teacher-dashboard" element={<DashboardLayout />}>
-              <Route index element={<TeacherHome />} />
-              <Route path="profile" element={<TeacherProfilePage />} />
-              <Route path="attendance" element={<AddStudentAttendance />} />
-              <Route path="examination" element={<TeacherExaminationPage />} />
-              <Route path="class" element={<TeacherClassView />} />
-              <Route path="results" element={<MarksManager />} />
-              {/* <Route path="communication" element={<TeacherCommunication />} /> */}
-            </Route>
-            <Route path="admin-dashboard" element={<DashboardLayout />}>
-              <Route index element={<AdminHome />} />
-              <Route path="profile" element={<AdminProfilePage />} />
-              <Route path="student" element={<AdminStudentManager />} />
-              <Route path="teacher" element={<AdminTeacherManager />} />
-              <Route path="attendance" element={<AdminAttendancePage />} />
-              <Route path="class" element={<AdminClassManager />} />
-              <Route path="communication" element={<AdminCommunication />} />
-            </Route>
-            <Route path="*" element={<NoPage />} />
+          <Route path="student-dashboard/*" element={<DashboardLayout />}>
+            <Route index element={<ProtectedRoute><StudentHome /></ProtectedRoute>} />
+            <Route path="profile" element={<ProtectedRoute><StudentProfile /></ProtectedRoute>} />
+            <Route path="attendance" element={<ProtectedRoute><StudentAttendancePage /></ProtectedRoute>} />
+            <Route path="examination" element={<ProtectedRoute><StudentExamination /></ProtectedRoute>} />
+            <Route path="class" element={<ProtectedRoute><ViewClassPage /></ProtectedRoute>} />
+            {/* Uncomment and protect the communication route if needed */}
+            {/* <Route path="communication" element={<ProtectedRoute><ViewCommunicationPage /></ProtectedRoute>} /> */}
+          </Route>
+          <Route path="teacher-dashboard/*" element={<DashboardLayout />}>
+            <Route index element={<ProtectedRoute><TeacherHome /></ProtectedRoute>} />
+            <Route path="profile" element={<ProtectedRoute><TeacherProfilePage /></ProtectedRoute>} />
+            <Route path="attendance" element={<ProtectedRoute><AddStudentAttendance /></ProtectedRoute>} />
+            <Route path="examination" element={<ProtectedRoute><TeacherExaminationPage /></ProtectedRoute>} />
+            <Route path="class" element={<ProtectedRoute><TeacherClassView /></ProtectedRoute>} />
+            <Route path="results" element={<ProtectedRoute><MarksManager /></ProtectedRoute>} />
+            {/* Uncomment and protect the communication route if needed */}
+            {/* <Route path="communication" element={<ProtectedRoute><TeacherCommunication /></ProtectedRoute>} /> */}
+          </Route>
+          <Route path="admin-dashboard/*" element={<DashboardLayout />}>
+            <Route index element={<ProtectedRoute><AdminHome /></ProtectedRoute>} />
+            <Route path="profile" element={<ProtectedRoute><AdminProfilePage /></ProtectedRoute>} />
+            <Route path="student" element={<ProtectedRoute><AdminStudentManager /></ProtectedRoute>} />
+            <Route path="teacher" element={<ProtectedRoute><AdminTeacherManager /></ProtectedRoute>} />
+            <Route path="attendance" element={<ProtectedRoute><AdminAttendancePage /></ProtectedRoute>} />
+            <Route path="class" element={<ProtectedRoute><AdminClassManager /></ProtectedRoute>} />
+            <Route path="communication" element={<ProtectedRoute><AdminCommunication /></ProtectedRoute>} />
+          </Route>
+          <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
     </div>
   );
 }
-
 export default App;

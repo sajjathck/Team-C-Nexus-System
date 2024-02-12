@@ -3,14 +3,14 @@ import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Form, Button, Container, Row, Col, Table, Modal } from 'react-bootstrap';
-
-
-const GetStudByStudentId = () => {
-
-    const handleClose = () => setShow(false);
-
+ 
+ 
+const StudByClassAndSection = () => {
     const [show, setShow] = useState(false);
-    const [selectedStudentId, setselectedStudentId] = useState("");
+    const [selectedclassName, setselectedClassName] = useState("");
+    const [selectedSection, setselectedSection] = useState("");
+    const [section, setSection] = useState([]);
+    
     const [studentDetails, setStudentDetails] = useState({});
     const [editStudentId, setEditStudentId] = useState("");
     const [editFirstName, setEditFirstName] = useState("");
@@ -21,34 +21,50 @@ const GetStudByStudentId = () => {
     const [editGender, setEditGender] = useState("");
     const [editRegDate, setEditRegDate] = useState("");
     const [ediClassName, setEditClassName] = useState("");
-
+ 
     const [data, setData] = useState([]);
-    
+   
     useEffect(() => {
         getData();
     }, []);
-
+ 
     const getData = () => {
         axios.get('http://localhost:5225/api/Student/GetAllStudents')
             .then((result) => {
                 setData(result.data);
+                // console.log(result.data)
             })
             .catch((error) => {
                 toast.error(error);
             });
     };
-
-    const handleSearch = () => {
-        axios.get(`http://localhost:5225/api/Student/GetStudentById/${selectedStudentId}`)
+    useEffect(() => {
+        if (selectedclassName) {
+            getSection();
+        }
+    }, [selectedclassName]); 
+    
+ const getSection =() =>{
+    axios.get(`http://localhost:5225/api/Class/GetClassByClassName/${selectedclassName}`)
             .then((result) => {
-                console.log(result.data)
+                setSection(result.data);
+              //  console.log(result.data);
+            })
+            .catch((error) => {
+                toast.error(error);
+            });
+ }
+    const handleSearch = () => {
+        axios.get(`http://localhost:5225/api/Student/GetAllStudentsByClassandSec/${selectedclassName}/${selectedSection}`)
+            .then((result) => {
+                 console.log(result.data)
                 setStudentDetails(result.data);
             })
             .catch((error) => {
                 toast.error(error);
             });
     };
-
+ 
     const handleDelete = (studentId) => {
         if (window.confirm("Are you sure to delete this student?")) {
             axios.delete(`http://localhost:5225/api/Student/DeleteStudent/${studentId}`)
@@ -64,7 +80,7 @@ const GetStudByStudentId = () => {
                 });
         }
     };
-
+ 
     const handleUpdate = () => {
         const url = 'http://localhost:5225/api/Student/EditStudent';
         const data = {
@@ -78,10 +94,10 @@ const GetStudByStudentId = () => {
             "regDate": editRegDate,
             "classId": ediClassName
         };
-
+ 
         axios.put(url, data)
             .then((result) => {
-                handleClose();
+                // handleClose();
                 getData();
                 setStudentDetails({});
                 toast.success("Student has been updated");
@@ -90,19 +106,25 @@ const GetStudByStudentId = () => {
                 toast.error(error);
             });
     };
-
+ 
     return (
         <Container>
             <ToastContainer />
-            <h2 className="mt-5 mb-3">Student By StudentId</h2>
+            <h2 className="mt-5 mb-3">Student By Class and Section</h2>
             <Row className="mb-3">
                 <Col>
-                    <Form.Select onChange={(e) => setselectedStudentId(e.target.value)}>
-                        <option value="">Select Student ID</option>
+                    <Form.Select onChange={(e) => setselectedClassName(e.target.value)}>
+                        <option value="">Select Class Name</option>
                         {data.map((item, index) => (
-                            <option key={index} value={item.studentId}>{item.studentId}</option>
+                            <option key={index} value={item.className}>{item.className}</option>
                         ))}
                     </Form.Select>
+                </Col>
+                <Col>
+                <Form.Select onChange={(e) => setselectedSection(e.target.value)}>
+                    <option value="">Select Section</option>
+                    {section && <option value={section.section}>{section.section}</option>}
+                </Form.Select>
                 </Col>
                 <Col>
                     <Button variant="primary" onClick={handleSearch}>Search</Button>
@@ -123,22 +145,36 @@ const GetStudByStudentId = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>{studentDetails.studentId}</td>
-                        <td>{studentDetails.firstName}</td>
-                        <td>{studentDetails.lastName}</td>
-                        <td>{studentDetails.rollno}</td>
-                        <td>{studentDetails.address}</td>
-                        <td>{studentDetails.dob}</td>
-                        <td>{studentDetails.gender}</td>
-                        <td>{studentDetails.regDate}</td>
-                        <td>{studentDetails.className}</td>
+                {studentDetails.map((detail, index) => (
+                    <tr key={index}>
+                        <td>{detail.studentId}</td>
+                        <td>{detail.firstName}</td>
+                        <td>{detail.lastName}</td>
+                        <td>{detail.rollno}</td>
+                        <td>{detail.address}</td>
+                        <td>{detail.dob}</td>
+                        <td>{detail.gender}</td>
+                        <td>{detail.regDate}</td>
+                        <td>{detail.className}</td>
                         <td>
-                            <Button variant="primary" onClick={() => setShow(true)}>Edit</Button>
-                            <Button variant="danger" onClick={() => handleDelete(studentDetails.studentId)}>Delete</Button>
+                            <Button variant="primary" onClick={() => {
+                                // Set the current student details for editing
+                                setEditStudentId(detail.studentId);
+                                setEditFirstName(detail.firstName);
+                                setEditLastName(detail.lastName);
+                                setEditRoll(detail.rollno);
+                                setEditAddress(detail.address);
+                                setEditDOB(detail.dob);
+                                setEditGender(detail.gender);
+                                setEditRegDate(detail.regDate);
+                                setEditClassName(detail.className);
+                                setShow(true);
+                            }}>Edit</Button>
+                            <Button variant="danger" onClick={() => handleDelete(detail.studentId)}>Delete</Button>
                         </td>
                     </tr>
-                </tbody>
+                ))}
+            </tbody>
             </Table>
             <Modal show={show} onHide={() => setShow(false)}>
                 <Modal.Header closeButton>
@@ -146,10 +182,6 @@ const GetStudByStudentId = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group className="mb-3" controlId="">
-                            <Form.Label>Student Id</Form.Label>
-                            <Form.Control type="text" placeholder="Enter student id" value={editStudentId} onChange={(e) => setEditStudentId(e.target.value)} />
-                        </Form.Group>
                         <Form.Group className="mb-3" controlId="editFirstName">
                             <Form.Label>First Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter First Name" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} />
@@ -168,7 +200,7 @@ const GetStudByStudentId = () => {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="editDOB">
                             <Form.Label>DOB</Form.Label>
-                            <Form.Control type="date" placeholder="Enter DoB" value={editDOB} onChange={(e) => setEditDOB(e.target.value)} />
+                            <Form.Control type="dob" placeholder="Enter DoB" value={editDOB} onChange={(e) => setEditDOB(e.target.value)} />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="editGender">
                         <Form.Label>Gender</Form.Label>
@@ -196,5 +228,5 @@ const GetStudByStudentId = () => {
         </Container>
     );
 };
-
-export default GetStudByStudentId;
+ 
+export default StudByClassAndSection;

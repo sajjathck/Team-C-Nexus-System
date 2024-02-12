@@ -6,6 +6,7 @@ import { Form, Button, Container, Row, Col, Table, Modal } from 'react-bootstrap
 import GetStudByRollNo from "../../components/Services/GetStudent/GetStudByRollNo";
 import GetStudByClass from "../../components/Services/GetStudent/GetStudByClass";
 import GetStudByStudentId from "../../components/Services/GetStudent/GetStudByStudentId";
+import GetStudByClassName from "../../components/Services/GetStudent/GetStudByClass";
 
 const AdminStudentManager = () => {
     const [show, setShow] = useState(false);
@@ -449,6 +450,7 @@ const AdminStudentManager = () => {
             <GetStudByRollNo />
             <GetStudByClass />
             <GetStudByStudentId />
+            <GetStudByClassName />
         </Container>
       
     )
