@@ -4,6 +4,7 @@ import StudentModules from './StudentModules';
 
 export default function StudentHome() {
   return (
+    <section className="">
     <div className="col-md-12">
       <div className="row mx-2 mb-0 mt-2 rounded-3 bg-light ">
         <main className="main-section">
@@ -25,5 +26,6 @@ export default function StudentHome() {
         </main>
       </div>
     </div>
+    </section>
   );
 }

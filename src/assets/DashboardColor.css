@@ -1,0 +1,10 @@
+/* Global.css or DashboardColors.css */
+
+:root {
+  --admin-primary-color: #3DB2FF;
+  --admin-secondary-color: #6c757d;
+  --student-primary-color: #28a745;
+  --student-secondary-color: #dc3545;
+  --teacher-primary-color: #ffc107;
+  --teacher-secondary-color: #17a2b8;
+}

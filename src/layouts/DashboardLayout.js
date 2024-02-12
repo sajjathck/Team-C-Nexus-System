@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import { Link, Outlet } from "react-router-dom";
-import HomeButton from "../components/Buttons/HomeButton";
 import StudentModules from "../pages/StudentPages/StudentModules";
 import AdminModules from "../pages/AdminPages/AdminModules";
 import TeacherModules from "../pages/TeacherPages/TeacherModules";
@@ -42,20 +41,44 @@ export default function DashboardLayout() {
       // Default modules or empty array if role is not recognized
       Modules = [];
   }
+  let primaryColor, secondaryColor;
+  switch (role) {
+    case "admin":
+      primaryColor = 'var(--admin-primary-color)';
+      secondaryColor = 'var(--admin-secondary-color)';
+      break;
+    case "student":
+      primaryColor = 'var(--student-primary-color)';
+      secondaryColor = 'var(--student-secondary-color)';
+      break;
+    case "teacher":
+      primaryColor = 'var(--teacher-primary-color)';
+      secondaryColor = 'var(--teacher-secondary-color)';
+      break;
+    default:
+      primaryColor = 'var(--default-primary-color)';
+      secondaryColor = 'var(--default-secondary-color)';
+  }
+
+  // Apply the primary and secondary colors to the document body
+  useEffect(() => {
+    document.documentElement.style.setProperty('--primary-color', primaryColor);
+    document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+  }, [primaryColor, secondaryColor]);
 
   return (
     <div className="container-fluid">
       <nav className="navbar navbar-expand-lg navbar-light">
-        <div className="container">
+        <div className="container d-flex align-items-center"> {/* Add d-flex and align-items-center classes */}
           <Link className="navbar-brand" to={dashboardlink}>
             NeXus.
           </Link>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav  ms-auto">
-              <li className="nav-item align-middle p-2 ">
-                <p className="p-0">{userEmail}</p>
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item align-middle p-2 d-flex align-items-center"> {/* Add d-flex and align-items-center classes */}
+                <p className="mb-0">{userEmail}</p>
               </li>
-              <li className="nav-item">
+              <li className="nav-item d-flex align-items-center"> {/* Add d-flex and align-items-center classes */}
                 <Link className="" to="/login">
                   <LogoutButton />
                 </Link>
@@ -65,15 +88,12 @@ export default function DashboardLayout() {
         </div>
       </nav>
       <div className="row mx-2 mb-0  rounded-3 bg-light ">
-        <nav className="col-md-3 col-lg-2 d-md-block bg-light rounded-3 mt-4 sidebar p-0 collapse full-height">
+      <nav className="col-md-3 col-lg-2 d-md-block bg-light rounded-3 mt-4 sidebar p-0 collapse full-height">
           <div className="position-sticky pt-3">
             <ul className="sidebarlist nav flex-column">
               {Modules.map((module) => (
-                <li
-                  className="nav-item border rounded-2 my-2 mx-2 "
-                  key={module.name}
-                >
-                  <Link to={module.link} className="nav-side-text nav-link ">
+                <li className="nav-item border rounded-2 my-2 mx-2" key={module.name}>
+                  <Link to={module.link} className="nav-side-text nav-link">
                     {module.name}
                   </Link>
                 </li>

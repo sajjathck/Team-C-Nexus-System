@@ -1,0 +1,37 @@
+/* DashboardLayout.css */
+
+/* Style for larger screens */
+@media (min-width:  992px) {
+    .sidebar {
+      width:  250px; /* Adjust the width as needed */
+    }
+  }
+  
+  /* Style for medium screens */
+  @media (min-width:  768px) and (max-width:  991px) {
+    .sidebar {
+      width:  200px; /* Adjust the width as needed */
+    }
+  }
+  
+  /* Style for smaller screens */
+  @media (max-width:  767px) {
+    .sidebar {
+      width:  100%; /* Full width on smaller screens */
+      position: static; /* Remove sticky positioning */
+    }
+  }
+  
+  /* Uniform styling for sidebar items */
+  .sidebarlist .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+  
+  .sidebarlist .nav-link {
+    text-decoration: none;
+    color: inherit;
+    padding:  0.5rem  1rem; /* Adjust padding as needed */
+  }
+  

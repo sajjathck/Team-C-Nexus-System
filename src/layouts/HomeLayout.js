@@ -57,8 +57,27 @@ export default function HomeLayout() {
       <main className="mx-2 mb-0">
         <Outlet />
       </main>
-      <footer>
-        
+      <footer className="footer">
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <h5>Contact Us</h5>
+              <p>Email: info@nexus.edu</p>
+              <p>Phone: +1 (123)  456-7890</p>
+            </div>
+            <div className="col">
+              <h5>Social Media</h5>
+              <a href="#">Facebook</a>
+              <a href="#">Twitter</a>
+              <a href="#">Instagram</a>
+            </div>
+            <div className="col">
+              <h5>Legal</h5>
+              <a href="/privacy-policy">Privacy Policy</a>
+              <a href="/terms-of-service">Terms of Service</a>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );
