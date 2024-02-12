@@ -2,6 +2,7 @@ import React from "react";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoute from './components/Auth/ProtectedRoute'; // Import the ProtectedRoute component
 import HomeLayout from "./layouts/HomeLayout";
 //routes
 import Home from "./pages/HomePages/Home";
@@ -31,7 +32,6 @@ import AdminClassManager from "./pages/AdminPages/AdminClassManager";
 import AdminTeacherManager from "./pages/AdminPages/AdminTeacherManager";
 import AdminStudentManager from "./pages/AdminPages/AdminStudentManager";
 import AdminCommunication from "./pages/AdminPages/AdminCommunication";
-import StudentLayout from "./layouts/StudentLayout";
 import TeacherCommunication from "./pages/TeacherPages/TeacherCommunication";
 import ViewCommunicationPage from "./pages/StudentPages/ViewCommunicationPage";
 import NoPage from "./components/shared/NoPage";

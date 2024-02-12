@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,8 +36,8 @@ export default function Signup() {
         navigate("/login");
       }, 3000);
     } catch (error) {
-        const errorMessage = error.response.data;
-    console.log(errorMessage);
+      const errorMessage = error.response.data;
+      console.log(errorMessage);
       setErr("An error occurred during registration.");
       setIsLoading(false);
     }
@@ -46,7 +46,7 @@ export default function Signup() {
   return (
     <section
       id="signup-section"
-      className="bg-light mt-5 rounded-2 p-3 p-md-4 p-xl-5 min-vh-80 d-flex flex-row align-items-center"
+      className="bg-light rounded-2 p-3 p-md-4 p-xl-5 min-vh-80 d-flex flex-row align-items-center"
     >
       <div className="container-fluid">
         <div className="row justify-content-center ">
@@ -143,6 +143,27 @@ export default function Signup() {
                             )}
                           </div>
                         </div>
+                        {/* Username */}
+                        <div className="col-md-6">
+                          <div className="mb-3">
+                            <label htmlFor="userName">Username</label>
+                            <input
+                              type="text"
+                              id="UserName"
+                              {...register("UserName", {
+                                required: "Please enter your username",
+                              })}
+                              className="form-control"
+                              aria-describedby="userNameHelp"
+                              aria-invalid={!!errors.UserName}
+                            />
+                            {errors.UserName && (
+                              <small id="userNameHelp" className="text-danger">
+                                {errors.UserName.message}
+                              </small>
+                            )}
+                          </div>
+                        </div>
                         <div className="col-md-6">
                           {/* Admission ID */}
                           <div className="mb-3">
@@ -168,29 +189,14 @@ export default function Signup() {
                           </div>
                         </div>
 
+
                         {/* Role */}
 
-                        <div className="col-md-6">
-                          {/* Username */}
-                          <div className="mb-3">
-                            <label htmlFor="userName">Username</label>
-                            <input
-                              type="text"
-                              id="UserName"
-                              {...register("UserName", {
-                                required: "Please enter your username",
-                              })}
-                              className="form-control"
-                              aria-describedby="userNameHelp"
-                              aria-invalid={!!errors.UserName}
-                            />
-                            {errors.UserName && (
-                              <small id="userNameHelp" className="text-danger">
-                                {errors.UserName.message}
-                              </small>
-                            )}
+
+                        {/* <div className="col-md-6">
+                          <ReCAPTCHA  sitekey="6Ldc528pAAAAALDQP2QJX5J5B4tCvoy8iaDzrSY2" />
                           </div>
-                        </div>
+                        */}
                         <div className="col-md-6">
                           {/* Password */}
                           <div className="mb-3">

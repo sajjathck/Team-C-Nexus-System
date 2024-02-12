@@ -1,8 +1,9 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Form, Button, Container, Row, Col, Table, Modal } from 'react-bootstrap';
+import GetTeacherById from "../../components/Services/GetTeacher/GetTeacherById";
 
 const AdminTeacherManager=()=>{
     const [show, setShow] = useState(false);
@@ -216,7 +217,7 @@ const AdminTeacherManager=()=>{
                         <Form.Control.Feedback type="invalid">{formErrors.subjectTaught}</Form.Control.Feedback>
                     </Form.Group>
                 </Row>
-                <Button variant="primary" onClick={handleSave}>Add Exam Details</Button>
+                <Button variant="primary" onClick={handleSave}>Add Teacher Details</Button>
             </Form>
             <br></br>
                 <div className='pt-2'>
@@ -305,6 +306,7 @@ const AdminTeacherManager=()=>{
             </Button>
             </Modal.Footer>
         </Modal>
+        <GetTeacherById />
         </Container>
         )
     }

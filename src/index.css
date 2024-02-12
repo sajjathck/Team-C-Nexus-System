@@ -13,6 +13,10 @@ h1,h2,h3,h4,h5,h6,label,span {
   font-weight: 500;
   font-family: 'Space Grotesk', sans-serif !important;
 }
+section{
+  height:  100vh;
+  overflow-y: auto; 
+}
 input{
 background-color: #f1f3f8 !important;
 
@@ -20,6 +24,7 @@ background-color: #f1f3f8 !important;
 body, html, .App, #root, .auth-wrapper {
   width: 100%;
   height: 100%;
+  margin-top: 0% !important;
 }
 .navbar-brand{
   font-weight: 700;

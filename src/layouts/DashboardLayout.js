@@ -50,9 +50,9 @@ export default function DashboardLayout() {
             NeXus.
           </Link>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item p-2 ">
-                <p className="">{userEmail}</p>
+            <ul className="navbar-nav  ms-auto">
+              <li className="nav-item align-middle p-2 ">
+                <p className="p-0">{userEmail}</p>
               </li>
               <li className="nav-item">
                 <Link className="" to="/login">
@@ -63,8 +63,8 @@ export default function DashboardLayout() {
           </div>
         </div>
       </nav>
-      <div className="row mx-2 mb-0 mt-2 rounded-3 bg-light ">
-        <nav className="col-md-3 col-lg-2 d-md-block bg-light rounded-3 sidebar p-0 collapse full-height">
+      <div className="row mx-2 mb-0  rounded-3 bg-light ">
+        <nav className="col-md-3 col-lg-2 d-md-block bg-light rounded-3 mt-4 sidebar p-0 collapse full-height">
           <div className="position-sticky pt-3">
             <ul className="sidebarlist nav flex-column">
               {Modules.map((module) => (
@@ -81,13 +81,13 @@ export default function DashboardLayout() {
           </div>
         </nav>
         <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-          <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h5 className="">
+          <div className="d-flex justify-content-end flex-wrap flex-md-nowrap align-items-right mt-2 border-bottom">
+            <h4 className="">
               {console.log(role)}
               {role === "student" && "Student Dashboard"}
               {role === "teacher" && "Teacher Dashboard"}
               {role === "admin" && "Admin Dashboard"}
-            </h5>
+            </h4>
           </div>
           <Outlet />
         </main>

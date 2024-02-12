@@ -1,6 +1,5 @@
 import React from "react";
 import ModuleCard from "../../components/shared/ModuleCard";
-import Sidebar from "../../components/shared/Sidebar"
 import StudentModules from './StudentModules';
 
 export default function StudentHome() {

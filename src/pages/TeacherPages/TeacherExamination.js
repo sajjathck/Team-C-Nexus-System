@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +14,10 @@ const TeacherExamination = () => {
     const [examDate, setExamDate] = useState("");
     const [classId, setClassId] = useState("");
     const [subjectName, setSubjectName] = useState("");
+
+    const classIds = ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12"];
+    const subjectnames = ["English", "Malayalam", "Hindi", "Chemistry", "Physics", "Botony", "Zoology", "Maths", "History", "Geography", "Politics", "Economics"];
+
     const [formErrors, setFormErrors] = useState({
         examId: '',
         examName: '',
@@ -190,13 +194,22 @@ const TeacherExamination = () => {
                 <Row className="mb-3">
                     <Form.Group as={Col} controlId="classId">
                         <Form.Label>Class ID</Form.Label>
-                        <Form.Control type="text" value={classId} onChange={(e) => setClassId(e.target.value)} isInvalid={!!formErrors.classId} />
+                        <Form.Select value={classId} onChange={(e) => setClassId(e.target.value)} isInvalid={!!formErrors.classId}>
+                            <option value="">Select Class</option>
+                            {classIds.map((id) => (
+                                <option key={id} value={id}>{id}</option>
+                            ))}
+                        </Form.Select>
                         <Form.Control.Feedback type="invalid">{formErrors.classId}</Form.Control.Feedback>
                     </Form.Group>
                     <Form.Group as={Col} controlId="subjectName">
                         <Form.Label>Subject Name</Form.Label>
-
-                        <Form.Control type="text" value={subjectName} onChange={(e) => setSubjectName(e.target.value)} isInvalid={!!formErrors.subjectName} />
+                        <Form.Select value={subjectName} onChange={(e) => setSubjectName(e.target.value)} isInvalid={!!formErrors.subjectName}>
+                            <option value="">Select Class</option>
+                            {subjectnames.map((id) => (
+                                <option key={id} value={id}>{id}</option>
+                            ))}
+                        </Form.Select>
                         <Form.Control.Feedback type="invalid">{formErrors.subjectName}</Form.Control.Feedback>
                     </Form.Group>
                 </Row>
@@ -248,30 +261,28 @@ const TeacherExamination = () => {
               <Modal.Title>Modify /Update Exam</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <Row>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Exam Id'
-            value={editExamId} onChange={(e)=> setEditExamId(e.target.value)} />
-            </Col>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Exam Name'
-            value={editExamName} onChange={(e)=> setEditExamName(e.target.value)} />
-            </Col>
-            </Row>
-            <Row className='pt-2'>
-            <Col>
-            <input type="date" className='form-control' placeholder='Enter Exam Date'
-            value={editExamDate} onChange={(e)=> setEditExamDate(e.target.value)} />
-            </Col>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Class Id'
-            value={editClassId} onChange={(e)=> setEditClassId(e.target.value)} />
-            </Col>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Subject Name'
-            value={editSubjectName} onChange={(e)=> setEditSubject(e.target.value)} />
-            </Col>
-          </Row>
+          <Form>
+                        <Form.Group className="mb-3" controlId="editExamId">
+                            <Form.Label>Student Id</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Student Id" value={editExamId} onChange={(e) => setEditExamId(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editExamName">
+                            <Form.Label>Exam Name</Form.Label>
+                            <Form.Control type="text" placeholder="Enter First Name" value={editExamName} onChange={(e) => setEditExamName(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editExamDate">
+                            <Form.Label>Date</Form.Label>
+                            <Form.Control type="date" placeholder="Enter Last Name" value={editExamDate} onChange={(e) => setEditExamDate(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editClassId">
+                            <Form.Label>Class Id</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Roll No" value={editClassId} onChange={(e) => setEditClassId(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editSubjectName">
+                            <Form.Label>Subject Name</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Address" value={editSubjectName} onChange={(e) => setEditSubject(e.target.value)} />
+                        </Form.Group>
+                    </Form>
     
             </Modal.Body>
             <Modal.Footer>

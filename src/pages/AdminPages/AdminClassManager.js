@@ -1,8 +1,10 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Form, Button, Container, Row, Col, Table, Modal } from 'react-bootstrap';
+import GetClassByClassId from "../../components/Services/GetClass/GetClassByClassId";
+import GetClassByTeacherId from "../../components/Services/GetClass/GetClassByTeacherId";
 
 const AdminClassManager=()=>{
     const [show, setShow] = useState(false);
@@ -261,6 +263,8 @@ const AdminClassManager=()=>{
             </Button>
             </Modal.Footer>
         </Modal>
+        <GetClassByClassId />
+        <GetClassByTeacherId />
         </Container>
         )
     }

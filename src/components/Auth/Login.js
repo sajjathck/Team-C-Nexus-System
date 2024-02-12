@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from './AuthContext';
 
 const validateInput = (value, label) => {
   if (value.trim() === "") {
@@ -14,7 +15,8 @@ const validateInput = (value, label) => {
 
 export default function Login(props) {
   const navigate = useNavigate();
-  const [user, setUser] = useState({ UserName: "", Password: "" });
+  const { user, setUser } = useContext(AuthContext); 
+  // const [user, setUser] = useState({ UserName: "", Password: "" });
   const [unameError, setUnameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   // const [showPassword, setShowPassword] = useState(false);
@@ -49,6 +51,7 @@ export default function Login(props) {
               sessionStorage.setItem("email", validUser.emailid);
               sessionStorage.setItem("token", validUser.token);
               sessionStorage.setItem("role", validUser.role.toLowerCase());
+              setUser(validUser);
               setTimeout(() => {
               if (validUser.role.toLowerCase() === "admin") {
                 navigate("/admin-dashboard");

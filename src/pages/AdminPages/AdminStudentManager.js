@@ -1,25 +1,30 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Form, Button, Container, Row, Col, Table, Modal } from 'react-bootstrap';
+import GetStudByRollNo from "../../components/Services/GetStudent/GetStudByRollNo";
+import GetStudByClass from "../../components/Services/GetStudent/GetStudByClass";
+import GetStudByStudentId from "../../components/Services/GetStudent/GetStudByStudentId";
 
-const AdminStudentManager=()=>{
+const AdminStudentManager = () => {
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+  //  const [studentDetails, setStudentDetails] = useState({});
     const [studentId, setStudentId] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [rollno, setRollNo] = useState("");
-    const [className, setClassName] = useState("");
+    // const [className, setClassName] = useState("");
     const [address, setAddress] = useState("");
     const [dob, setDob] = useState("");
     const [gender, setGender] = useState("");
     const [regDate, setRegDate] = useState("");
     const [classId, setClassid] = useState("")
-    
+    const classIds = ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12"];
+
 
     const [formErrors, setFormErrors] = useState({
         studentId: '',
@@ -30,8 +35,8 @@ const AdminStudentManager=()=>{
         address: '',
         dob: '',
         gender: '',
-        regDate:'',
-        classId:''  
+        regDate: '',
+        classId: ''
     });
     const [editstudentId, seteditStudentId] = useState("");
     const [editfirstName, seteditFirstName] = useState("");
@@ -43,7 +48,9 @@ const AdminStudentManager=()=>{
     const [editgender, seteditGender] = useState("");
     const [editregDate, seteditRegDate] = useState("");
     const [editClassId, seteditClassId] = useState("");
-    
+
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [pendingStudentId, setPendingStudentId] = useState(null);
 
     const [data, setData] = useState([]);
 
@@ -71,21 +78,45 @@ const AdminStudentManager=()=>{
                 toast.error(error);
             });
     };
-
     const handleDelete = (studentId) => {
-        if (window.confirm("Are you sure to delete this Teacher?")) {
-            axios.delete(`http://localhost:5225/api/Student/DeleteStudent/${studentId}`)
-                .then((result) => {
-                    if (result.status === 200) {
-                        toast.success("Deleted successfully");
-                        getData();
-                    }
-                })
-                .catch((error) => {
-                    toast.error(error);
-                });
-        }
+        setPendingStudentId(studentId);
+        setShowDeleteModal(true);
     };
+
+    const confirmDelete = () => {
+        axios.delete(`http://localhost:5225/api/Student/DeleteStudent/${pendingStudentId}`)
+            .then((result) => {
+                if (result.status === 200) {
+                    toast.success("Deleted successfully");
+                    getData();
+                }
+            })
+            .catch((error) => {
+                toast.error(error);
+            })
+            .finally(() => {
+                setShowDeleteModal(false);
+            });
+    };
+    const closeDeleteModal = () => {
+        setShowDeleteModal(false);
+    };
+    const DeleteConfirmationModal = () => (
+        <Modal show={showDeleteModal} onHide={closeDeleteModal}>
+            <Modal.Header closeButton>
+                <Modal.Title>Delete Confirmation</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to delete this student?</Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={closeDeleteModal}>
+                    Cancel
+                </Button>
+                <Button variant="danger" onClick={confirmDelete}>
+                    Delete
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
 
     const handleUpdate = () => {
         const url = 'http://localhost:5225/api/Student/EditStudent';
@@ -99,14 +130,15 @@ const AdminStudentManager=()=>{
             "dob": editdob,
             "gender": editgender,
             "regDate": editregDate,
-            "classId":editClassId
+            "classId": editClassId
         };
         console.log(data)
         axios.put(url, data)
             .then((result) => {
                 handleClose();
                 getData();
-                
+               // setStudentDetails({});
+
                 toast.success("student has been updated");
             })
             .catch((error) => {
@@ -139,6 +171,10 @@ const AdminStudentManager=()=>{
             errors.rollno = 'Roll No is required';
             isValid = false;
         }
+        else if (data.some(item => item.rollno === rollno)) {
+            errors.rollno = 'Roll No already exists ';
+            isValid = false;
+        }
         // if (!className.trim()) {
         //     errors.className = 'Class Name is required';
         //     isValid = false;
@@ -169,31 +205,31 @@ const AdminStudentManager=()=>{
 
     const handleSave = () => {
         if (validateForm()) {
-        const url = 'http://localhost:5225/api/Student/AddStudent';
-        const data = {
-            "studentId": studentId,
-            "firstName": firstName,
-            "lastName": lastName,
-            "rollno": rollno,
-            // "className":className,
-            "address": address,
-            "dob": dob,
-            "gender": gender,
-            "regDate": regDate,
-            "classId":classId
-        };
-        console.log(data)
-        axios.post(url, data)
-            
-            .then((result) => {
-                toast.success("student has been added");
-                    //clear();
+            const url = 'http://localhost:5225/api/Student/AddStudent';
+            const data = {
+                "studentId": studentId,
+                "firstName": firstName,
+                "lastName": lastName,
+                "rollno": rollno,
+                // "className":className,
+                "address": address,
+                "dob": dob,
+                "gender": gender,
+                "regDate": regDate,
+                "classId": classId
+            };
+            console.log(data)
+            axios.post(url, data)
+
+                .then((result) => {
+                    toast.success("student has been added");
+                    clear();
 
                     getData(); // Fetch data again after adding
-            })
-            .catch((error) => {
-                toast.error(error);
-            });
+                })
+                .catch((error) => {
+                    toast.error(error);
+                });
         }
     };
 
@@ -220,13 +256,13 @@ const AdminStudentManager=()=>{
             address: '',
             dob: '',
             gender: '',
-            regDate:'',
-            classId:'',
-            formErrors:''
-        })    
+            regDate: '',
+            classId: '',
+            formErrors: ''
+        })
     }
-        return (
-            <Container>
+    return (
+        <Container>
             <ToastContainer />
             <h2 className="mt-5 mb-3">Student Control</h2>
             <Form>
@@ -274,9 +310,14 @@ const AdminStudentManager=()=>{
 
                     <Form.Group as={Col} controlId="gender">
                         <Form.Label>Gender</Form.Label>
-                        <Form.Control type="text" value={gender} onChange={(e) => setGender(e.target.value)} isInvalid={!!formErrors.gender} />
+                        <Form.Select value={gender} onChange={(e) => setGender(e.target.value)} isInvalid={!!formErrors.gender}>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </Form.Select>
                         <Form.Control.Feedback type="invalid">{formErrors.gender}</Form.Control.Feedback>
                     </Form.Group>
+
                     <Form.Group as={Col} controlId="regDate">
                         <Form.Label>Registration Date</Form.Label>
                         <Form.Control type="date" value={regDate} onChange={(e) => setRegDate(e.target.value)} isInvalid={!!formErrors.regDate} />
@@ -284,7 +325,12 @@ const AdminStudentManager=()=>{
                     </Form.Group>
                     <Form.Group as={Col} controlId="classId">
                         <Form.Label>Class Id</Form.Label>
-                        <Form.Control type="text" value={classId} onChange={(e) => setClassid(e.target.value)} isInvalid={!!formErrors.classId} />
+                        <Form.Select value={classId} onChange={(e) => setClassid(e.target.value)} isInvalid={!!formErrors.classId}>
+                            <option value="">Select Class</option>
+                            {classIds.map((id) => (
+                                <option key={id} value={id}>{id}</option>
+                            ))}
+                        </Form.Select>
                         <Form.Control.Feedback type="invalid">{formErrors.classId}</Form.Control.Feedback>
                     </Form.Group>
 
@@ -293,116 +339,118 @@ const AdminStudentManager=()=>{
                 <Button variant="primary" onClick={handleSave}>Add Student Details</Button>
             </Form>
             <br></br>
-                <div className='pt-2'>
-                    <Table striped bordered hover>
-                        <thead>
-                            <tr>
-                                <td>Sl No</td>
-                                <th>Student Id</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Roll No </th>
-                                <th>Class Name</th>
-                                <th>Address</th>
-                                <th>DOB</th>
-                                <th>Gender</th>
-                                <th>Register Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                data && data.length > 0 ?
-                                    data.map((item, index) => {
-                                        return (
-                                            <tr key={index}>
-                                                <td>{index + 1}</td>
-                                                <td>{item.studentId}</td>
-                                                <td>{item.firstName}</td>
-                                                <td>{item.lastName}</td>
-                                                <td>{item.rollno}</td>
-                                                <td>{item.className}</td>
-                                                <td>{item.address}</td>
-                                                <td>{item.dob}</td>
-                                                <td>{item.gender}</td>
-                                                <td>{item.regDate}</td>
-                                                <td colSpan={2}>
-                
-                
-                    <button className='btn btn-primary'  onClick={()=>handleEdit(item.studentId)} >Edit</button> &nbsp;
-                    <button className='btn btn-danger' onClick={()=> handleDelete(item.studentId)}  >Delete</button>
-                </td>
-                </tr>
-                )
-            })
-            :
-            'Loading.......'
-            }
-        
-        </tbody>
-        </Table>
-        </div>
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-            <Modal.Title>Modify /Update Student</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-            <Row>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Student Id'
-            value={editstudentId} onChange={(e)=> seteditStudentId(e.target.value)} />
-            </Col>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter First name'
-             onChange={(e)=> seteditFirstName(e.target.value)} />
-            </Col>
-            </Row>
-            <Row className='pt-2'>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Last Name'
-            value={editlastName} onChange={(e)=> seteditLastName(e.target.value)} />
-            </Col>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Roll No '
-            value={editrollno} onChange={(e)=> seteditRollNo(e.target.value)} />
-            </Col>
-            </Row>
-            <Row>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Class Id '
-            value={editClassId} onChange={(e)=> seteditClassId(e.target.value)} />
-            </Col>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Address '
-            value={editaddress} onChange={(e)=> seteditAddress(e.target.value)} />
-            </Col>
-            </Row>
-            <Row>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter DOB '
-            value={editdob} onChange={(e)=> seteditDob(e.target.value)} />
-            </Col>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Gender '
-            value={editgender} onChange={(e)=> seteditGender(e.target.value)} />
-            </Col>
-            <Col>
-            <input type="text" className='form-control' placeholder='Enter Reg Date '
-            value={editregDate} onChange={(e)=> seteditRegDate(e.target.value)} />
-            </Col>
+            <div className='pt-2'>
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <td>Sl No</td>
+                            <th>Student Id</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Roll No </th>
+                            <th>Class Name</th>
+                            <th>Address</th>
+                            <th>DOB</th>
+                            <th>Gender</th>
+                            <th>Register Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            data && data.length > 0 ?
+                                data.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{item.studentId}</td>
+                                            <td>{item.firstName}</td>
+                                            <td>{item.lastName}</td>
+                                            <td>{item.rollno}</td>
+                                            <td>{item.className}</td>
+                                            <td>{item.address}</td>
+                                            <td>{item.dob}</td>
+                                            <td>{item.gender}</td>
+                                            <td>{item.regDate}</td>
+                                            <td colSpan={2}>
 
-        </Row>
-        
-            </Modal.Body>
-            <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-                Close
-            </Button>
-            <Button variant="primary" onClick={handleUpdate}>
-                Save Changes
-            </Button>
-            </Modal.Footer>
-        </Modal>
+
+                                                <button className='btn btn-primary' onClick={() => handleEdit(item.studentId)} >Edit</button> &nbsp;
+                                                <button className='btn btn-danger' onClick={() => handleDelete(item.studentId)}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                                :
+                                'Loading.......'
+                        }
+
+                    </tbody>
+                </Table>
+            </div>
+
+            <Modal show={show} onHide={() => setShow(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modify / Update Student</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="editstudentId">
+                            <Form.Label>Student Id</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Student Id" value={editstudentId} onChange={(e) => seteditStudentId(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editfirstName">
+                            <Form.Label>First Name</Form.Label>
+                            <Form.Control type="text" placeholder="Enter First Name" value={editfirstName} onChange={(e) => seteditFirstName(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editlastName">
+                            <Form.Label>Last Name</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Last Name" value={editlastName} onChange={(e) => seteditLastName(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editrollno">
+                            <Form.Label>Roll No</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Roll No" value={editrollno} onChange={(e) => seteditRollNo(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editaddress">
+                            <Form.Label>Address</Form.Label>
+                            <Form.Control type="text" placeholder="Enter Address" value={editaddress} onChange={(e) => seteditAddress(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editdob">
+                            <Form.Label>DOB</Form.Label>
+                            <Form.Control type="date" placeholder="Enter DoB" value={editdob} onChange={(e) => seteditDob(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editgender">
+                            <Form.Label>Gender</Form.Label>
+                            <Form.Select value={editgender} onChange={(e) => seteditGender(e.target.value)}>
+                                <option value="">Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </Form.Select>
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editregDate">
+                            <Form.Label>Reg Date</Form.Label>
+                            <Form.Control type="date" value={editregDate} onChange={(e) => seteditRegDate(e.target.value)} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="editClassId">
+                            <Form.Select value={editClassId} onChange={(e) => seteditClassId(e.target.value)} isInvalid={!!formErrors.classId}>
+                                <option value="">Select Class</option>
+                                {classIds.map((id) => (
+                                    <option key={id} value={id}>{id}</option>
+                                ))}
+                            </Form.Select>
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={() => setShow(false)}>Close</Button>
+                    <Button variant="primary" onClick={handleUpdate}>Save Changes</Button>
+                </Modal.Footer>
+            </Modal>
+            <DeleteConfirmationModal />
+            <GetStudByRollNo />
+            <GetStudByClass />
+            <GetStudByStudentId />
         </Container>
-        )
-    }
+      
+    )
+}
 export default AdminStudentManager

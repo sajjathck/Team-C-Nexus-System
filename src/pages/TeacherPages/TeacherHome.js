@@ -1,7 +1,6 @@
 import React from "react";
 import ModuleCard from "../../components/shared/ModuleCard";
 import TeacherModules from "./TeacherModules";
-import Sidebar from "../../components/shared/Sidebar";
 
 export default function TeacherHome() {
   return (
