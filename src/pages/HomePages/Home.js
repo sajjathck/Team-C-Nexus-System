@@ -13,9 +13,10 @@ export default function Home() {
         />
         <div className="overlay"></div>
         <div id="headertexthome" className="header-text text-light position-absolute top-50 start-50 translate-middle">
-          Nexus<br />
+          {/* Nexus<br />
           Management<br />
-          System.<br />
+          System<br /> */}
+        <p>"Enhancing Educational Excellence: Nexus School Management System"</p>  
         </div>
       </div>
       <div className="content-container">
