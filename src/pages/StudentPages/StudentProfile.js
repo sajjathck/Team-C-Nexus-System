@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { Container, Row, Col ,Table, Modal, Button, Form } from 'react-bootstrap';
+import { Container, Row, Col, Table, Modal, Button, Form } from 'react-bootstrap';
 import { Card } from 'react-bootstrap';
+import GetResultByStudent from '../../components/Services/GetResult/GetResultByStudent';
 
 export default function StudentProfile() {
   const [users, setUsers] = useState([]);
@@ -11,6 +12,7 @@ export default function StudentProfile() {
   const [editingUser, setEditingUser] = useState(null); // User currently being edited
   const [editUserName, setEditUserName] = useState("");
   const [editPhoneNum, setEditPhoneNum] = useState("");
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   useEffect(() => {
     // Fetch data from the API on component mount
@@ -32,6 +34,7 @@ export default function StudentProfile() {
     axios.get(`http://localhost:5225/api/Student/GetStudentById/${admissionId}`)
       .then(response => {
         setSelectedTeacher(response.data);
+        setShowDetailsModal(true);
       })
       .catch(error => console.error('Error fetching teacher data:', error));
   };
@@ -76,16 +79,15 @@ export default function StudentProfile() {
     <Container>
       <ToastContainer />
       <h2 className="mt-2 mb-3">Student Profile Page</h2>
-      <Table striped bordered hover>
+      <Table striped border-none hover>
         <thead>
           <tr>
             <th>Username</th>
             <th>Phone Number</th>
             <th>Email ID</th>
             <th>Admission ID</th>
-            <th>Actions</th>
             <th></th>
-
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -101,36 +103,42 @@ export default function StudentProfile() {
                 </div>
               </td>
               <td>
-              <div className='btn-success'>
-                  <Button onClick={() => handleViewDetailsClick(user.admissionId)}>
+                <div className='btn-success'>
+                  <Button variant='success' onClick={() => handleViewDetailsClick(user.admissionId)}>
                     View Full Details
                   </Button>
                 </div>
               </td>
             </tr>
-            
+
           ))}
         </tbody>
       </Table>
-
-      {Object.keys(selectedTeacher).length >  0 && (
-      <div className="mt-4">
-        <h2>Full Details</h2>
-        <div className="row">
-          {Object.entries(selectedTeacher).map(([key, value]) => (
-            <div className="col-md-4 mb-4" key={key}>
-              <Card>
-                <Card.Header>{key.charAt(0).toUpperCase() + key.slice(1)}</Card.Header>
-                <Card.Body>
-                  <Card.Text>{value}</Card.Text>
-                </Card.Body>
-              </Card>
-            </div>
-          ))}
-        </div>
+      <div>
+        <GetResultByStudent />
       </div>
-    )}
+      {/* Student Details Modal */}
+      <div className=''>
+        <Modal show={showDetailsModal} onHide={() => setShowDetailsModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title className="text-uppercase fw-bold">Student Details</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {Object.entries(selectedTeacher).map(([key, value]) => (
+              <div key={key} className=" mb-2">
+                <h5 className="fw-bold me-2">{key.charAt(0).toUpperCase() + key.slice(1)}:</h5>
+                <p className='text-align-right'>{value}</p>
+              </div>
+            ))}
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowDetailsModal(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
+      </div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Edit User Details</Modal.Title>
@@ -144,6 +152,7 @@ export default function StudentProfile() {
                   value={editUserName} onChange={(e) => setEditUserName(e.target.value)} />
               </Col>
             </Form.Group>
+            <br />
             <Form.Group as={Row} controlId="editPhoneNum">
               <Form.Label column sm={4}>Phone Number</Form.Label>
               <Col sm={8}>
@@ -162,6 +171,7 @@ export default function StudentProfile() {
           </Button>
         </Modal.Footer>
       </Modal>
+
     </Container>
   );
 }

@@ -22,7 +22,9 @@ const GetStudByRollNo = () => {
     const [ediClassName, setEditClassName] = useState("");
  
     const [data, setData] = useState([]);
-   
+    const currentUserRole = sessionStorage.getItem('role'); 
+    const isAdmin = () => currentUserRole === 'admin';
+
     useEffect(() => {
         getData();
     }, []);
@@ -119,6 +121,8 @@ const GetStudByRollNo = () => {
                         <th>gender</th>
                         <th>regDate</th>
                         <th>className</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -133,9 +137,11 @@ const GetStudByRollNo = () => {
                         <td>{studentDetails.regDate}</td>
                         <td>{studentDetails.className}</td>
                         <td>
-                            <Button variant="primary" onClick={() => setShow(true)}>Edit</Button>
+                        {isAdmin() ? (
+                            <Button variant="primary" onClick={() => setShow(true)}>Edit</Button>):( "")}</td>
+                            <td>{isAdmin() ? (
                             <Button variant="danger" onClick={() => handleDelete(studentDetails.studentId)}>Delete</Button>
-                        </td>
+                            ):( "")}</td>
                     </tr>
                 </tbody>
             </Table>

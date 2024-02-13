@@ -11,7 +11,7 @@ const StudByClassAndSection = () => {
     const [selectedSection, setselectedSection] = useState("");
     const [section, setSection] = useState([]);
     
-    const [studentDetails, setStudentDetails] = useState({});
+    const [studentDetails, setStudentDetails] = useState([]);
     const [editStudentId, setEditStudentId] = useState("");
     const [editFirstName, setEditFirstName] = useState("");
     const [editLastName, setEditLastName] = useState("");
@@ -130,7 +130,7 @@ const StudByClassAndSection = () => {
                     <Button variant="primary" onClick={handleSearch}>Search</Button>
                 </Col>
             </Row>
-            <Table striped bordered hover>
+            <Table striped border-none hover>
                 <thead>
                     <tr>
                         <th>Student Id</th>
@@ -138,10 +138,12 @@ const StudByClassAndSection = () => {
                         <th>Last Name</th>
                         <th>Roll No</th>
                         <th>Address</th>
-                        <th>dob</th>
-                        <th>gender</th>
-                        <th>regDate</th>
-                        <th>className</th>
+                        <th>DOB</th>
+                        <th>Gender</th>
+                        <th>RegDate</th>
+                        <th>Class Name</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -169,7 +171,8 @@ const StudByClassAndSection = () => {
                                 setEditRegDate(detail.regDate);
                                 setEditClassName(detail.className);
                                 setShow(true);
-                            }}>Edit</Button>
+                            }}>Edit</Button></td>
+                            <td>
                             <Button variant="danger" onClick={() => handleDelete(detail.studentId)}>Delete</Button>
                         </td>
                     </tr>

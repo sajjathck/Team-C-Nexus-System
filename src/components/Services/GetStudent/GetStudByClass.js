@@ -91,7 +91,7 @@ const GetStudByClass = () => {
     return (
         <Container>
             <ToastContainer />
-            <h2 className="mt-5 mb-3">Student By Class</h2>
+            <h2 className="mt-5 mb-3">Student By Class(teacher)</h2>
             <Row className="mb-3">
                 <Col>
                     <Form.Select onChange={(e) => setselectedClass(e.target.value)}>

@@ -193,3 +193,13 @@ box-shadow: inset 0px 0px 20px -1px rgba(0,0,0,0.05);
 }
 
 
+.alternate-order .row:nth-child(odd) .col-md-4:first-child {
+  order:  2;
+}
+.alternate-order .row:nth-child(even) .col-md-4:last-child {
+  order:  1;
+}
+.uniform-width-card {
+  width:  100% !important; /* Set the width to  100% to take up the full width of its parent */
+  max-width:  300px !important; /* Set a maximum width for the card */
+}

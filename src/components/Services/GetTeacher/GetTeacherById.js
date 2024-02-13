@@ -6,8 +6,10 @@ import { Form, Button, Container, Row, Col, Table, Modal } from 'react-bootstrap
 
 const GetTeacherById = () => {
     const [show, setShow] = useState(false);
+    const subjectnames = ["English", "Malayalam", "Hindi", "Chemistry", "Physics", "Botony", "Zoology", "Maths", "History", "Geography", "Politics", "Economics"];
+    const handleClose = () => setShow(false);
     const [selectedTeacherId, setSelectedTeacherId] = useState("");
-    const [teacherDetails, setTeacherDetails] = useState(null);
+    const [teacherDetails, setTeacherDetails] = useState({});
     const [editFirstName, setEditFirstName] = useState("");
     const [editLastName, setEditLastName] = useState("");
     const [editTeacherDob, setEditTeacherDob] = useState("");
@@ -69,7 +71,7 @@ const GetTeacherById = () => {
 
         axios.put(url, data)
             .then((result) => {
-                // handleClose();
+                handleClose();
                 getData();
                 setTeacherDetails({});
                 toast.success("Teacher has been updated");
@@ -82,7 +84,7 @@ const GetTeacherById = () => {
     return (
         <Container>
             <ToastContainer />
-            <h2 className="mt-5 mb-3">Teacher By Id</h2>
+            <h2 className="mt-5 mb-3">Get By Id</h2>
             <Row className="mb-3">
                 <Col>
                     <Form.Select onChange={(e) => setSelectedTeacherId(e.target.value)}>
@@ -96,37 +98,35 @@ const GetTeacherById = () => {
                     <Button variant="primary" onClick={handleSearch}>Search</Button>
                 </Col>
             </Row>
-            {teacherDetails &&
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Teacher Id</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>DOB</th>
-                            <th>Gender</th>
-                            <th>Subject Taught</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{teacherDetails.teacherId}</td>
-                            <td>{teacherDetails.fName}</td>
-                            <td>{teacherDetails.lName}</td>
-                            <td>{teacherDetails.dob}</td>
-                            <td>{teacherDetails.gender}</td>
-                            <td>{teacherDetails.subjectTaught}</td>
-                            <td>
-
-                                <Button variant="primary" onClick={() => setShow(true)}>Edit</Button>
-                                <Button variant="danger" onClick={() => handleDelete(teacherDetails.teacherId)}>Delete</Button>
-
-                            </td>
-                        </tr>
-                    </tbody>
-                </Table>
-            }
+            <Table striped border-none hover>
+                <thead>
+                    <tr>
+                        <th>Teacher Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>DOB</th>
+                        <th>Gender</th>
+                        <th>Subject Taught</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{teacherDetails.teacherId}</td>
+                        <td>{teacherDetails.fName}</td>
+                        <td>{teacherDetails.lName}</td>
+                        <td>{teacherDetails.dob}</td>
+                        <td>{teacherDetails.gender}</td>
+                        <td>{teacherDetails.subjectTaught}</td>
+                        <td>
+                            <Button variant="primary" onClick={() => setShow(true)}>Edit</Button></td>
+                        <td>
+                            <Button variant="danger" onClick={() => handleDelete(teacherDetails.teacherId)}>Delete</Button>
+                        </td>
+                    </tr>
+                </tbody>
+            </Table>
             <Modal show={show} onHide={() => setShow(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Modify / Update Teachers</Modal.Title>
@@ -143,15 +143,27 @@ const GetTeacherById = () => {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="editTeacherDob">
                             <Form.Label> Date Of Birth</Form.Label>
-                            <Form.Control type="text" value={editTeacherDob} onChange={(e) => setEditTeacherDob(e.target.value)} />
+                            <Form.Control type="date" value={editTeacherDob} onChange={(e) => setEditTeacherDob(e.target.value)} />
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="editGender">
                             <Form.Label>Gender</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Gender" value={editGender} onChange={(e) => setEditGender(e.target.value)} />
+                            <Form.Select value={editGender} onChange={(e) => setEditGender(e.target.value)} >
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+
+                            </Form.Select>
+                            {/* <Form.Control type="text" placeholder="Enter Gender" value={editGender} onChange={(e) => setEditGender(e.target.value)} /> */}
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="editSubjectName">
                             <Form.Label>Subject Name</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Subject Name" value={editSubjectName} onChange={(e) => setEditSubject(e.target.value)} />
+                            <Form.Select value={editSubjectName} onChange={(e) => setEditSubject(e.target.value)} >
+                                <option value="">Select Class</option>
+                                {subjectnames.map((id) => (
+                                    <option key={id} value={id}>{id}</option>
+                                ))}
+                            </Form.Select>
+                            {/* <Form.Control type="text" placeholder="Enter Subject Name" value={editSubjectName} onChange={(e) => setEditSubject(e.target.value)} /> */}
                         </Form.Group>
                     </Form>
                 </Modal.Body>

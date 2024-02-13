@@ -1,7 +1,10 @@
 import React from 'react'
+import ViewClassByTeacher from '../../components/Services/GetClass/ViewClassByTeacher'
 
 export default function TeacherClassView() {
   return (
-    <div>ClassPage</div>
+    <div>
+      <ViewClassByTeacher />
+    </div>
   )
 }

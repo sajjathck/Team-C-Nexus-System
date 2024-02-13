@@ -35,7 +35,9 @@ import AdminCommunication from "./pages/AdminPages/AdminCommunication";
 import TeacherCommunication from "./pages/TeacherPages/TeacherCommunication";
 import ViewCommunicationPage from "./pages/StudentPages/ViewCommunicationPage";
 import NoPage from "./components/shared/NoPage";
-import MarksManager from "./pages/TeacherPages/MarksManager";
+import AdminExamination from "./pages/AdminPages/AdminExamination";
+import MarksManager from "./components/Services/GetResult/MarksManager";
+import TeacherStudentManagement from "./pages/TeacherPages/TeacherStudentManagement";
 
 function App() {
   return (
@@ -46,7 +48,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
             <Route path="contact" element={<Contact />} />
-            <Route path="courses" element={<Courses />} />
+            <Route path="gallery" element={<Courses />} />
             <Route path="login" element={<Login />} />
             <Route path="signup" element={<SignUp />} />
             <Route path="forgot-password" element={<ForgotPassword />} />
@@ -67,6 +69,7 @@ function App() {
             <Route path="examination" element={<ProtectedRoute><TeacherExaminationPage /></ProtectedRoute>} />
             <Route path="class" element={<ProtectedRoute><TeacherClassView /></ProtectedRoute>} />
             <Route path="results" element={<ProtectedRoute><MarksManager /></ProtectedRoute>} />
+            <Route path="students" element={<ProtectedRoute><TeacherStudentManagement /></ProtectedRoute>} />
             {/* Uncomment and protect the communication route if needed */}
             {/* <Route path="communication" element={<ProtectedRoute><TeacherCommunication /></ProtectedRoute>} /> */}
           </Route>
@@ -76,6 +79,7 @@ function App() {
             <Route path="student" element={<ProtectedRoute><AdminStudentManager /></ProtectedRoute>} />
             <Route path="teacher" element={<ProtectedRoute><AdminTeacherManager /></ProtectedRoute>} />
             <Route path="attendance" element={<ProtectedRoute><AdminAttendancePage /></ProtectedRoute>} />
+            <Route path="examination" element={<ProtectedRoute><AdminExamination /></ProtectedRoute>} />
             <Route path="class" element={<ProtectedRoute><AdminClassManager /></ProtectedRoute>} />
             <Route path="communication" element={<ProtectedRoute><AdminCommunication /></ProtectedRoute>} />
           </Route>

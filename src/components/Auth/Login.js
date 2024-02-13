@@ -43,11 +43,13 @@ export default function Login(props) {
             if (
               validUser.role === null ||
               validUser.token === null ||
+              validUser.admissionId === null ||
               validUser.emailid === null
             ) {
               setErr("Invalid user credentials or missing user details.");
               setIsLoading(false);
             } else {
+              sessionStorage.setItem("id", validUser.admissionId);
               sessionStorage.setItem("email", validUser.emailid);
               sessionStorage.setItem("token", validUser.token);
               sessionStorage.setItem("role", validUser.role.toLowerCase());
@@ -73,7 +75,7 @@ export default function Login(props) {
   return (
     <section
       id="login-section"
-      className="bg-light rounded-2 p-3 p-md-4 p-xl-5 min-vh-80 d-flex flex-row align-items-center"
+      className="bg-light rounded-2 p-1 p-md-4 p-xl-5 min-vh-80 d-flex flex-row align-items-center"
     >
       <div className="container-fluid">
         <div className="row justify-content-center">

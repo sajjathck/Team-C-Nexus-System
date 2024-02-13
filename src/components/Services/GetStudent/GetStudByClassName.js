@@ -129,6 +129,8 @@ const GetStudByClassName = () => {
                         <th>gender</th>
                         <th>regDate</th>
                         <th>className</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -145,7 +147,8 @@ const GetStudByClassName = () => {
                                 <td>{item.regDate}</td>
                                 <td>{item.className}</td>
                                 <td>
-                                    <Button variant="primary" onClick={() => setShow(true)}>Edit</Button>
+                                    <Button variant="primary" onClick={() => setShow(true)}>Edit</Button></td>
+                                <td>
                                     <Button variant="danger" onClick={() => handleDelete(item.studentId)}>Delete</Button>
                                 </td>
                             </tr>

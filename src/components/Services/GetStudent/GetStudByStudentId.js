@@ -11,7 +11,7 @@ const GetStudByStudentId = () => {
 
     const [show, setShow] = useState(false);
     const [selectedStudentId, setselectedStudentId] = useState("");
-    const [studentDetails, setStudentDetails] = useState({});
+    const [studentDetails, setStudentDetails] = useState([]);
     const [editStudentId, setEditStudentId] = useState("");
     const [editFirstName, setEditFirstName] = useState("");
     const [editLastName, setEditLastName] = useState("");
@@ -21,7 +21,8 @@ const GetStudByStudentId = () => {
     const [editGender, setEditGender] = useState("");
     const [editRegDate, setEditRegDate] = useState("");
     const [ediClassName, setEditClassName] = useState("");
-
+ const currentUserRole = sessionStorage.getItem('role'); 
+    const isAdmin = () => currentUserRole === 'admin';
     const [data, setData] = useState([]);
     
     useEffect(() => {
@@ -108,7 +109,7 @@ const GetStudByStudentId = () => {
                     <Button variant="primary" onClick={handleSearch}>Search</Button>
                 </Col>
             </Row>
-            <Table striped bordered hover>
+            <Table striped border-none hover>
                 <thead>
                     <tr>
                         <th>Student Id</th>
@@ -120,6 +121,7 @@ const GetStudByStudentId = () => {
                         <th>gender</th>
                         <th>regDate</th>
                         <th>className</th>
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -133,10 +135,16 @@ const GetStudByStudentId = () => {
                         <td>{studentDetails.gender}</td>
                         <td>{studentDetails.regDate}</td>
                         <td>{studentDetails.className}</td>
+                       
+                        <td> {isAdmin() ? (
+                            <Button variant="primary" onClick={() => setShow(true)}>Edit</Button>):( "")}</td>
                         <td>
-                            <Button variant="primary" onClick={() => setShow(true)}>Edit</Button>
+                        {isAdmin() ? (
                             <Button variant="danger" onClick={() => handleDelete(studentDetails.studentId)}>Delete</Button>
-                        </td>
+                            ):( "")}
+                            </td>
+                            
+                        
                     </tr>
                 </tbody>
             </Table>

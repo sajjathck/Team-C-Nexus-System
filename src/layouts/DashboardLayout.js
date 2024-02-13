@@ -69,16 +69,16 @@ export default function DashboardLayout() {
   return (
     <div className="container-fluid">
       <nav className="navbar navbar-expand-lg navbar-light">
-        <div className="container d-flex align-items-center"> {/* Add d-flex and align-items-center classes */}
+        <div className="container d-flex align-items-center">
           <Link className="navbar-brand" to={dashboardlink}>
             NeXus.
           </Link>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ms-auto">
-              <li className="nav-item align-middle p-2 d-flex align-items-center"> {/* Add d-flex and align-items-center classes */}
+              <li className="nav-item align-middle p-2 d-flex align-items-center">
                 <p className="mb-0">{userEmail}</p>
               </li>
-              <li className="nav-item d-flex align-items-center"> {/* Add d-flex and align-items-center classes */}
+              <li className="nav-item d-flex align-items-center">
                 <Link className="" to="/login">
                   <LogoutButton />
                 </Link>
@@ -87,8 +87,8 @@ export default function DashboardLayout() {
           </div>
         </div>
       </nav>
-      <div className="row mx-2 mb-0  rounded-3 bg-light ">
-      <nav className="col-md-3 col-lg-2 d-md-block bg-light rounded-3 mt-4 sidebar p-0 collapse full-height">
+      <div className="row mx-2 mb-0 rounded-3 bg-light">
+        <nav className="col-md-3 col-lg-2 d-md-block bg-light rounded-3 mt-4 sidebar p-0 collapse full-height">
           <div className="position-sticky pt-3">
             <ul className="sidebarlist nav flex-column">
               {Modules.map((module) => (

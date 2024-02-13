@@ -46,7 +46,7 @@ export default function Signup() {
   return (
     <section
       id="signup-section"
-      className="bg-light rounded-2 p-3 p-md-4 p-xl-5 min-vh-80 d-flex flex-row align-items-center"
+      className="bg-light rounded-2 p-1 p-md-4 p-xl-5 min-vh-80 d-flex flex-row align-items-center"
     >
       <div className="container-fluid">
         <div className="row justify-content-center ">

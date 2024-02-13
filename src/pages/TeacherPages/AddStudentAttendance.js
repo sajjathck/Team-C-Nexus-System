@@ -1,129 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { ToastContainer, toast } from "react-toastify";
-import { Form, Button,  Col, Table } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Card, Container, Row, Col } from 'react-bootstrap';
+import TeacherReportGenerate from '../../components/Services/Attendances/TeacherReportGenerate';
+import ReportGenerate from '../../components/Services/Attendances/ReportGenerate';
+import AddAttendanceStudent from '../../components/Services/Attendances/AddAttendanceStudent';
+import AttendanceForteacher from '../../components/Services/Attendances/AttendanceForteacher';
 
-export default function AttendanceList() {
-  const [attendances, setAttendances] = useState([]);
-  const [selectedClassName, setSelectedClassName] = useState('');
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [data, setData] = useState([]);
+const AddStudentAttendance = () => {
+    const [selectedCard, setSelectedCard] = useState(null);
 
-  useEffect(() => {
-    getData();
-  }, []);
+    const cards = [
+        { id: 'recordattendance', label: 'Record Student Attendance' },
+        { id: 'teacherattendance', label: 'Teachers Attendance Report' },
+        { id: 'studentattendance', label: 'Student Attendance Report' },
+    ];
 
-  const getData = () => {
-    axios.get('http://localhost:5225/api/Student/GetAllStudents')
-      .then((result) => {
-        setData(result.data);
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
+    const handleCardClick = (cardId) => {
+        setSelectedCard(cardId);
+    };
 
-  const fetchAttendanceData = () => {
-    const formattedDate = selectedDate.toISOString().split('T')[0];
-    axios.get(`http://localhost:5225/api/StudAttendence/GetStudentAttendance/${selectedClassName}/${formattedDate}`)
-      .then((result) => {
-        console.log(result.data);
-        setAttendances(result.data);
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
-  };
-
-  const updateAttendanceStatus = () => {
-    Promise.all(attendances.map(attendance => {
-      const updatedStatus = attendance.status ? 'Present' : 'Absent';
-      return axios.put(`http://localhost:5225/api/StudAttendence/UpdateAttendanceStatus/${attendance.StudAttendenceId}`, { status: updatedStatus });
-    }))
-    .then(() => {
-      toast.success('Attendance status updated successfully!');
-      fetchAttendanceData(); // Refresh the data after updating
-    })
-    .catch((error) => {
-      toast.error('Failed to update attendance status:', error);
-    });
-  };
-
-  const handleClassNameChange = (event) => {
-    setSelectedClassName(event.target.value);
-  };
-
-  const handleDateChange = (event) => {
-    setSelectedDate(new Date(event.target.value));
-  };
-
-  useEffect(() => {
-    if (selectedClassName && !isNaN(selectedDate)) {
-      fetchAttendanceData();
-    }
-  }, [selectedClassName, selectedDate]);
-
-  return (
-    <div className="container mt-4">
-      <ToastContainer />  
-      <h1>Attendance List</h1>
-      <div className="row mb-3">
-        <Col>
-          <Form.Select onChange={handleClassNameChange}>
-            <option value="">Select class Name</option>
-            {data.map((item, index) => (
-              <option key={index} value={item.className}>{item.className}</option>
+    return (
+        <Container>
+        <Row>
+            {cards.map((card) => (
+                <Col sm={6} md={4} lg={6} key={card.id}>
+                    <Card className={`mb-3 ${selectedCard === card.id ? 'border-primary' : ''}`} style={{ cursor: 'pointer' }} onClick={() => handleCardClick(card.id)}>
+                        <Card.Body className={card.bgColor}>
+                            <Card.Title>{card.label}</Card.Title>
+                        </Card.Body>
+                    </Card>
+                </Col>
             ))}
-          </Form.Select>
-        </Col>
-        <Col>
-          <Button variant="primary" onClick={fetchAttendanceData}>Search</Button>
-        </Col>
-        <Col>
-          <label htmlFor="datePicker">Date:</label>
-          <input type="date" id="datePicker" value={selectedDate.toISOString().split('T')[0]} onChange={handleDateChange} />
-        </Col>
-      </div>
-      {Array.isArray(attendances) && attendances.length >  0 ? (
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Roll Number</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {attendances.map((attendance) => (
-            <tr key={attendance.Rollno}>
-              <td>{attendance.FirstName}</td>
-              <td>{attendance.LastName}</td>
-              <td>{attendance.Rollno}</td>
-              <td>{new Date(attendance.AttendanceDate).toLocaleDateString()}</td>
-              <td>
-                <select
-                  value={attendance.status ? 'Present' : 'Absent'}
-                  onChange={(e) => {
-                    const updatedAttendances = attendances.map((a) =>
-                      a.Rollno === attendance.Rollno ? { ...a, status: e.target.value === 'Present' } : a
-                    );
-                    setAttendances(updatedAttendances);
-                  }}
-                >
-                  <option value="Present">Present</option>
-                  <option value="Absent">Absent</option>
-                </select>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-       ) : (
-        <p>No attendance data available.</p>
-      )}
-      <Button variant="primary" className="mt-3" onClick={updateAttendanceStatus}>Update Attendance Status</Button>
-    </div>
-  );
-}
+        </Row>
+
+        {selectedCard === 'recordattendance' && <AddAttendanceStudent />}
+        {selectedCard === 'teacherattendance' && <AttendanceForteacher />}
+        {selectedCard === 'studentattendance' && <ReportGenerate />}
+
+    </Container>
+    );
+};
+
+export default AddStudentAttendance;
