@@ -21,6 +21,9 @@ const StudByClassAndSection = () => {
     const [editGender, setEditGender] = useState("");
     const [editRegDate, setEditRegDate] = useState("");
     const [ediClassName, setEditClassName] = useState("");
+    const[editClassId,setEditClassId]=useState("")
+    const classIds = ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12"];
+
  
     const [data, setData] = useState([]);
    
@@ -92,7 +95,7 @@ const StudByClassAndSection = () => {
             "dob": editDOB,
             "gender": editGender,
             "regDate": editRegDate,
-            "classId": ediClassName
+            "classId": editClassId
         };
  
         axios.put(url, data)
@@ -185,6 +188,10 @@ const StudByClassAndSection = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
+                    <Form.Group className="mb-3" controlId="editStudentId">
+                            <Form.Label>Student Id</Form.Label>
+                            <Form.Control type="text" placeholder="Enter student id" value={editStudentId} onChange={(e) => setEditStudentId(e.target.value)} />
+                        </Form.Group>
                         <Form.Group className="mb-3" controlId="editFirstName">
                             <Form.Label>First Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter First Name" value={editFirstName} onChange={(e) => setEditFirstName(e.target.value)} />
@@ -221,6 +228,15 @@ const StudByClassAndSection = () => {
                             <Form.Label>Class Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter Class Name" value={ediClassName} onChange={(e) => setEditClassName(e.target.value)} />
                         </Form.Group>
+                        {/* <Form.Group className="mb-3" controlId="seteditClassId">
+                        <Form.Label>Class Id</Form.Label>
+                        <Form.Select value={editClassId} onChange={(e) => setEditClassId(e.target.value)} >
+                            <option value="">Select Class</option>
+                            {classIds.map((editClassId) => (
+                                <option key={editClassId} value={editClassId}>{editClassId}</option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group> */}
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

@@ -328,7 +328,7 @@ const ScheduleClassManagement=()=>{
             <Col>
             {/* <input type="text" className='form-control' placeholder='Enter Class Id'
             value={editclassId} onChange={(e)=> setEditClassid(e.target.value)} /> */}
-                <Form.Select onChange={(e) => setClassid(e.target.value)}>
+                <Form.Select onChange={(e) => setEditClassid(e.target.value)}>
                     <option value=""> Class ID</option>
                         {classdata.map((item, index) => (
                             <option key={index} value={item.classId}>{item.classId}</option>
@@ -340,7 +340,7 @@ const ScheduleClassManagement=()=>{
             <Col>
             {/* <input type="text" className='form-control' placeholder='Enter Teacher Id'
             value={editteacherId} onChange={(e)=> setEditTeacherId(e.target.value)} /> */}
-            <Form.Select onChange={(e) => setTeacherId(e.target.value)}>
+            <Form.Select onChange={(e) => setEditTeacherId(e.target.value)}>
                         <option value="">Teacher ID</option>
                         {teacherdata.map((item, index) => (
                             <option key={index} value={item.teacherId}>{item.teacherId}</option>
@@ -350,7 +350,7 @@ const ScheduleClassManagement=()=>{
             <Col>
             {/* <input type="text" className='form-control' placeholder='Enter Subject '
             value={editsubject} onChange={(e)=> setEditSubject(e.target.value)} /> */}
-                <Form.Select value={subject} onChange={(e) => setSubject(e.target.value)} isInvalid={!!formErrors.subjectName}>
+                <Form.Select value={subject} onChange={(e) => setEditSubject(e.target.value)} isInvalid={!!formErrors.subjectName}>
                     <option value="">Subjects</option>
                         {subjectnames.map((id) => (
                             <option key={id} value={id}>{id}</option>))}
@@ -361,7 +361,7 @@ const ScheduleClassManagement=()=>{
             value={editsessiontime} onChange={(e)=> setEditSession(e.target.value)} />
             </Col> */}
             <Col>
-            <Form.Select value={sessiontime} onChange={(e) => setSession(e.target.value)} isInvalid={!!formErrors.subjectName}>
+            <Form.Select value={sessiontime} onChange={(e) => setEditSession(e.target.value)} isInvalid={!!formErrors.subjectName}>
                             <option value="">Session</option>
                             {sessions.map((id) => (
                                 <option key={id} value={id}>{id}</option>

@@ -20,6 +20,8 @@ const GetStudByRollNo = () => {
     const [editGender, setEditGender] = useState("");
     const [editRegDate, setEditRegDate] = useState("");
     const [ediClassName, setEditClassName] = useState("");
+    const[editClassId,seteditClassId]=useState("");
+    const classIds = ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12"];
  
     const [data, setData] = useState([]);
     const currentUserRole = sessionStorage.getItem('role'); 
@@ -77,7 +79,7 @@ const GetStudByRollNo = () => {
             "dob": editDOB,
             "gender": editGender,
             "regDate": editRegDate,
-            "classId": ediClassName
+            "classId": editClassId
         };
  
         axios.put(url, data)
@@ -187,10 +189,19 @@ const GetStudByRollNo = () => {
                             <Form.Label>Reg Date</Form.Label>
                             <Form.Control type="date"  value={editRegDate} onChange={(e) => setEditRegDate(e.target.value)} />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="setEditClassName">
+                        {/* <Form.Group className="mb-3" controlId="setEditClassName">
                             <Form.Label>Class Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter Class Name" value={ediClassName} onChange={(e) => setEditClassName(e.target.value)} />
-                        </Form.Group>
+                        </Form.Group> */}
+                        <Form.Group className="mb-3" controlId="seteditClassId">
+                        <Form.Label>Class Id</Form.Label>
+                        <Form.Select value={editClassId} onChange={(e) => seteditClassId(e.target.value)} >
+                            <option value="">Select Class</option>
+                            {classIds.map((editClassId) => (
+                                <option key={editClassId} value={editClassId}>{editClassId}</option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>

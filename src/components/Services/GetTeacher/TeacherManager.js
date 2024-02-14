@@ -16,6 +16,8 @@ export default function TeacherManager() {
     const [dob, setDOB] = useState("");
     const [gender, setGender] = useState("");
     const [subjectTaught, setSubjectTaught] = useState("");
+    const subjectnames = ["English", "Malayalam", "Hindi", "Chemistry", "Physics", "Botony", "Zoology", "Maths", "History", "Geography", "Politics", "Economics"];
+
 
     const [formErrors, setFormErrors] = useState({
         teacherId: '',
@@ -206,11 +208,17 @@ export default function TeacherManager() {
                         <Form.Control type="date" value={dob} onChange={(e) => setDOB(e.target.value)} isInvalid={!!formErrors.dob} />
                         <Form.Control.Feedback type="invalid">{formErrors.dob}</Form.Control.Feedback>
                     </Form.Group>
-                    <Form.Group as={Col} controlId="gender">
+                    {/* <Form.Group as={Col} controlId="gender">
                         <Form.Label>Gender</Form.Label>
                         <Form.Control type="text" value={gender} onChange={(e) => setGender(e.target.value)} isInvalid={!!formErrors.gender} />
                         <Form.Control.Feedback type="invalid">{formErrors.gender}</Form.Control.Feedback>
-                    </Form.Group>
+                    </Form.Group> */}
+                    <Form.Label>Gender</Form.Label>
+                    <Form.Select value={editGender} onChange={(e) => setEditGender(e.target.value)}>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </Form.Select>
                     <Form.Group as={Col} controlId="subjectTaught">
                         <Form.Label>Subject Taught</Form.Label>
                         <Form.Control type="text" value={subjectTaught} onChange={(e) => setSubjectTaught(e.target.value)} isInvalid={!!formErrors.subjectTaught} />

@@ -21,6 +21,8 @@ const GetStudByClassName = () => {
     const [editRegDate, setEditRegDate] = useState("");
     const [editClassName, setEditClassName] = useState("");
     const [editClassId, setEditClassId] = useState("")
+    const classIds = ["C1", "C2", "C3", "C4", "C5", "C6", "C7", "C8", "C9", "C10", "C11", "C12"];
+
     const [data, setData] = useState([]);
  
     useEffect(() => {
@@ -251,10 +253,19 @@ const GetStudByClassName = () => {
                             <Form.Label>Reg Date</Form.Label>
                             <Form.Control type="date"  value={editRegDate} onChange={(e) => setEditRegDate(e.target.value)} />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="editClassId">
+                        {/* <Form.Group className="mb-3" controlId="editClassId">
                             <Form.Label>Class Id</Form.Label>
                             <Form.Control type="text" placeholder="Enter Class Id" value={editClassId} onChange={(e) => setEditClassId(e.target.value)} />
-                        </Form.Group>
+                        </Form.Group> */}
+                        <Form.Group className="mb-3" controlId="seteditClassId">
+                        <Form.Label>Class Id</Form.Label>
+                        <Form.Select value={editClassId} onChange={(e) => setEditClassId(e.target.value)} >
+                            <option value="">Select Class</option>
+                            {classIds.map((editClassId) => (
+                                <option key={editClassId} value={editClassId}>{editClassId}</option>
+                            ))}
+                        </Form.Select>
+                    </Form.Group>
 
                     </Form>
                 </Modal.Body>
