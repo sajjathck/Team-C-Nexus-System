@@ -80,7 +80,7 @@ export default function HomeLayout() {
             alt=""
           />
           <div className="overlay"></div>
-          <div id="headertexthome" className="header-text text-light position-absolute top-50 start-50 translate-middle">
+          <div id="headertexthome" className="header-text text-light position-absolute top-50 start-50 translate-middle ">
             <p>{headerText}</p>
           </div>
         </div>

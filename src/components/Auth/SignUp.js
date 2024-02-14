@@ -38,7 +38,13 @@ export default function Signup() {
     } catch (error) {
       const errorMessage = error.response.data;
       console.log(errorMessage);
-      setErr("An error occurred during registration.");
+      if (error.response && error.response.status ===  400) {
+        // Display a toast with the error message from the server
+        toast.error(error.response.data);
+      } else {
+        // For other types of errors, display a generic error message
+        toast.error("An error occurred during registration.");
+      }
       setIsLoading(false);
     }
   };

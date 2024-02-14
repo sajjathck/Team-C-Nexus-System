@@ -28,7 +28,7 @@ const AdminStudentManager = () => {
         <Container>
         <Row>
             {cards.map((card) => (
-                <Col sm={6} md={4} lg={6} key={card.id}>
+                <Col sm={6} md={4} lg={3} key={card.id}>
                     <Card className={`mb-3 ${selectedCard === card.id ? 'border-primary' : ''}`} style={{ cursor: 'pointer' }} onClick={() => handleCardClick(card.id)}>
                         <Card.Body className={card.bgColor}>
                             <Card.Title>{card.label}</Card.Title>

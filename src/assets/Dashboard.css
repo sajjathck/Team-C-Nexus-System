@@ -1,72 +1,12 @@
-/* DashboardLayout.css */
-
-.container-fluid {
-  padding:  2rem; /* Add padding around the container */
+/* Add these to your CSS file */
+.admin-dashboard {
+  background-color: #FAF3F0; /* Pastel Red */
 }
 
-.navbar {
-  box-shadow:  0px  2px  5px rgba(0,  0,  0,  0.1); /* Subtle shadow under the navbar */
+.student-dashboard {
+  background-color: #FEFBF6; /* Pastel Green */
 }
 
-.navbar-brand {
-  font-weight: bold; /* Bold brand name */
-  color: var(--primary-color); /* Primary color for brand name */
-}
-
-.nav-item {
-  margin-bottom:  1rem; /* Space between nav items */
-}
-
-.nav-side-text {
-  font-size:  1.1rem; /* Larger text for navigation links */
-  color: var(--secondary-color); /* Secondary color for navigation links */
-}
-
-.sidebar {
-  background-color: #fff; /* White background for sidebar */
-  box-shadow: -2px  0px  5px rgba(0,  0,  0,  0.1); /* Shadow to the left of the sidebar */
-}
-
-.main {
-  background-color: #f8f9fa; /* Light gray background for main content area */
-  min-height: calc(100vh -  60px); /* Full height minus navbar height */
-  padding:  2rem; /* Padding inside the main content area */
-}
-
-.border {
-  border: none; /* Remove default borders */
-}
-
-.rounded-2 {
-  border-radius:  0.5rem; /* Slightly rounded corners */
-}
-
-.my-2 {
-  margin-top:  0.5rem; /* Vertical spacing between items */
-  margin-bottom:  0.5rem;
-}
-
-.mx-2 {
-  margin-left:  0.5rem; /* Horizontal spacing between items */
-  margin-right:  0.5rem;
-}
-
-.bg-light {
-  background-color: #f8f9fa !important; /* Light background color */
-}
-
-.mt-4 {
-  margin-top:  1.5rem !important; /* Top margin for sidebar */
-}
-
-.justify-content-end {
-  justify-content: flex-end !important; /* Align items to the end of the container */
-}
-
-.align-items-right {
-  align-items: flex-end !important; /* Align items to the right */
-}
-
-.border-bottom {
-  border-bottom:  1px solid #dee2e6 !important; /* Border at the bottom */
+.teacher-dashboard {
+  background-color: #a0c4ff; /* Pastel Blue */
 }

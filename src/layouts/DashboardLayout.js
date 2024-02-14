@@ -5,6 +5,7 @@ import StudentModules from "../pages/StudentPages/StudentModules";
 import AdminModules from "../pages/AdminPages/AdminModules";
 import TeacherModules from "../pages/TeacherPages/TeacherModules";
 import LogoutButton from "../components/Buttons/LogoutButton";
+import '../assets/Dashboard.css'
 
 export default function DashboardLayout() {
   const [role, setRole] = useState(""); // Initialize role state
@@ -20,8 +21,11 @@ export default function DashboardLayout() {
       setUserEmail(emailFromSessionStorage); // Set the user's email
     }
     setLink(`/${roleFromSessionStorage}-dashboard`);
-  }, []);
 
+
+  }, []);
+  const roles = sessionStorage.getItem("role");
+  const dashboardClass = `${roles}-dashboard`;
   let Modules = [];
   switch (role) {
     case "admin":
@@ -87,8 +91,9 @@ export default function DashboardLayout() {
           </div>
         </div>
       </nav>
-      <div className="row mx-2 mb-0 rounded-3 bg-light">
-        <nav className="col-md-3 col-lg-2 d-md-block bg-light rounded-3 mt-4 sidebar p-0 collapse full-height">
+      <div className={`container-fluid rounded-3 ${dashboardClass}`}>
+      <div className="row mx-2 mb-0  ">
+        <nav className="col-md-3 col-lg-2 d-md-block  rounded-3 mt-4 sidebar p-0 collapse full-height">
           <div className="position-sticky pt-3">
             <ul className="sidebarlist nav flex-column">
               {Modules.map((module) => (
@@ -112,6 +117,7 @@ export default function DashboardLayout() {
           </div>
           <Outlet />
         </main>
+      </div>
       </div>
     </div>
   );

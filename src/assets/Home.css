@@ -28,6 +28,6 @@
     margin-bottom:  0.5rem;
   }
   .image-container {
-    height:  75vh; /* Set the height to half of the viewport height */
+    height:  100vh; /* Set the height to half of the viewport height */
     overflow: hidden; /* Hide any content that exceeds the container's bounds */
   }

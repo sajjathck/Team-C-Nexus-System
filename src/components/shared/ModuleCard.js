@@ -1,15 +1,22 @@
 import { Link } from "react-router-dom";
+import { Card, Container, Row, Col } from 'react-bootstrap';
+import lightColors from '../../assets/LightColors'
 function ModuleCard({ link, name }) {
+  function getRandomLightColor() {
+    const index = Math.floor(Math.random() * lightColors.length);
+    return lightColors[index];
+  }
+  
   return (
-    <div className="card-group ">
+<Col sm={6} md={4} lg={6} key={name}>
       <Link to={link} className="card-title text-decoration-none">
-        <div className="uniform-width-card card rounded-4 shadow-3 border-1 mt-3">
-          <div className="card-body">
-            {name}
-          </div>
-        </div>
+      <Card className='mb-3 ' style={{ cursor: 'pointer' }}>
+      <Card.Body style={{ backgroundColor: getRandomLightColor() }}>
+      <Card.Title>{name}</Card.Title>
+            </Card.Body>
+          </Card>
       </Link>
-    </div>
+      </Col>
   );
 }
 export default ModuleCard;

@@ -28,8 +28,8 @@ const StudentManagement = () => {
         if (isAdmin()) {
             return (
                 <>
-                    <button className='btn btn-primary' onClick={() => handleEdit(item.studentId)}>Edit</button>
-                    <button className='btn btn-danger' onClick={() => handleDelete(item.studentId)}>Delete</button>
+                   <td><button className='btn btn-primary' onClick={() => handleEdit(item.studentId)}>Edit</button></td> 
+                   <td> <button className='btn btn-danger' onClick={() => handleDelete(item.studentId)}>Delete</button></td> 
                 </>
             );
         } else {
@@ -391,10 +391,10 @@ const StudentManagement = () => {
                                         <td>{item.dob}</td>
                                         <td>{item.gender}</td>
                                         <td>{item.regDate}</td>
-                                        <td colSpan={1}>
+                                        
 
                                         {renderButtons(item)}
-                                        </td>
+                                        
                                     </tr>
                                 )
                             })
