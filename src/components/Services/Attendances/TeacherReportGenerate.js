@@ -80,7 +80,7 @@ const TeacherReportGenerate = () => {
             <li className="list-group-item">Working Days: {totalWorkingDays}</li>
             <li className="list-group-item">Days Present: {totalPresentDays}</li>
             <li className="list-group-item">Days Absent: {totalAbsentDays}</li>
-            <li className="list-group-item">Percentage: {percentage}%</li>
+            <li className="list-group-item">Percentage: {percentage}</li>
         </ul>
     </div>
 </div>

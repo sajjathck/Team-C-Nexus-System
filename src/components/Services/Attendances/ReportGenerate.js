@@ -1,6 +1,8 @@
 
 import React,{useState,useEffect} from 'react'
 import axios from "axios";
+import { Form, Col} from 'react-bootstrap';
+
 
 const ReportGenerate=()=> {
   const [percentage, setPercentage] = useState("");
@@ -8,7 +10,23 @@ const ReportGenerate=()=> {
   const [totalAbsentDays, setTotalAbsentDays] = useState("");
   const [studentId, setStudentId] = useState("");
   const [totalWorkingDays, setTotalWorkingDays] = useState("");
+  const [selectedStudentId, setselectedStudentId] = useState("");
   const [date, setDate] = useState("");
+  const [data, setData] = useState([]);
+    
+  useEffect(() => {
+      getData();
+  }, []);
+
+  const getData = () => {
+      axios.get('http://localhost:5225/api/Student/GetAllStudents')
+          .then((result) => {
+              setData(result.data);
+          })
+          .catch((error) => {
+              //toast.error(error);
+          });
+  };
 
   const Search = (e) => {
     e.preventDefault();
@@ -31,14 +49,14 @@ const ReportGenerate=()=> {
     <form>
         <div className="form-group">
             <label htmlFor="studentId">Enter Student ID</label>
-            <input
-                type="text"
-                id="studentId"
-                className="form-control"
-                value={studentId}
-                onChange={(e) => setStudentId(e.target.value)}
-                required
-            />
+            <Col>
+                    <Form.Select onChange={(e) => setselectedStudentId(e.target.value)}>
+                        <option value="">Select Student ID</option>
+                        {data.map((item, index) => (
+                            <option key={index} value={item.studentId}>{item.studentId}</option>
+                        ))}
+                    </Form.Select>
+                </Col>
         </div>
         <br />
         <div className="form-group">
@@ -64,7 +82,7 @@ const ReportGenerate=()=> {
             <li className="list-group-item">Working Days: {totalWorkingDays}</li>
             <li className="list-group-item">Days Present: {totalPresentDays}</li>
             <li className="list-group-item">Days Absent: {totalAbsentDays}</li>
-            <li className="list-group-item">Percentage: {percentage}%</li>
+            <li className="list-group-item">Percentage: {percentage}</li>
         </ul>
     </div>
 </div>

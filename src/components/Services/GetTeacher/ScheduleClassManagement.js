@@ -366,7 +366,7 @@ const ScheduleClassManagement=()=>{
                             {sessions.map((id) => (
                                 <option key={id} value={id}>{id}</option>
                             ))}
-                        </Form.Select>
+            </Form.Select>
             </Col>
         </Row>
         

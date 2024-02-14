@@ -263,8 +263,16 @@ const ExamManagement = () => {
             <Modal.Body>
           <Form>
                         <Form.Group className="mb-3" controlId="editExamId">
-                            <Form.Label>Student Id</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Student Id" value={editExamId} onChange={(e) => setEditExamId(e.target.value)} />
+                        <Col>
+                        <Form.Label>Exam Id</Form.Label>
+
+                    <Form.Select value={editExamId} onChange={(e) => setEditExamId(e.target.value)}>
+                        <option value="">Select Exam ID</option>
+                        {data.map((item, index) => (
+                            <option key={index} value={item.examId}>{item.examId}</option>
+                        ))}
+                    </Form.Select>
+                </Col>
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="editExamName">
                             <Form.Label>Exam Name</Form.Label>
@@ -274,10 +282,16 @@ const ExamManagement = () => {
                             <Form.Label>Date</Form.Label>
                             <Form.Control type="date" placeholder="Enter Last Name" value={editExamDate} onChange={(e) => setEditExamDate(e.target.value)} />
                         </Form.Group>
-                        <Form.Group className="mb-3" controlId="editClassId">
-                            <Form.Label>Class Id</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Roll No" value={editClassId} onChange={(e) => setEditClassId(e.target.value)} />
-                        </Form.Group>
+                        <Form.Group as={Col} controlId="classId">
+                        <Form.Label>Class ID</Form.Label>
+                        <Form.Select value={editClassId} onChange={(e) => setEditClassId(e.target.value)} isInvalid={!!formErrors.classId}>
+                            <option value="">Select Class</option>
+                            {classIds.map((id) => (
+                                <option key={id} value={id}>{id}</option>
+                            ))}
+                        </Form.Select>
+                        <Form.Control.Feedback type="invalid">{formErrors.classId}</Form.Control.Feedback>
+                    </Form.Group>
                         <Form.Group className="mb-3" controlId="editSubjectName">
                             <Form.Label>Subject Name</Form.Label>
                             <Form.Control type="text" placeholder="Enter Address" value={editSubjectName} onChange={(e) => setEditSubject(e.target.value)} />
