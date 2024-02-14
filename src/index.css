@@ -203,3 +203,9 @@ box-shadow: inset 0px 0px 20px -1px rgba(0,0,0,0.05);
   width:  100% !important; /* Set the width to  100% to take up the full width of its parent */
   max-width:  300px !important; /* Set a maximum width for the card */
 }
+/* Add this to your CSS file or within a <style> tag */
+.carousel-image {
+  width:  100%; /* Set the width to  100% of the container */
+  height:  500px; /* Set a fixed height */
+  object-fit: cover !important; /* Maintain aspect ratio without stretching */
+}
